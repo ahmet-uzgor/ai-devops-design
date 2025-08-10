@@ -79,202 +79,211 @@ export default function Contact() {
           </div>
         </section>
 
-        {/* Contact Methods */}
-        <section className="py-20 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className="grid lg:grid-cols-4 gap-8 mb-16">
-              <Card className="text-center hover:shadow-lg transition-all duration-300">
-                <CardHeader>
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <Mail className="h-8 w-8 text-white" />
-                  </div>
-                  <CardTitle>Email Us</CardTitle>
-                  <CardDescription>Get in touch via email</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-blue-600 font-semibold">hello@omniinfra.com</p>
-                  <p className="text-sm text-gray-600 mt-2">We typically respond within 4 hours</p>
-                </CardContent>
-              </Card>
-
-              <Card className="text-center hover:shadow-lg transition-all duration-300">
-                <CardHeader>
-                  <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <Phone className="h-8 w-8 text-white" />
-                  </div>
-                  <CardTitle>Call Us</CardTitle>
-                  <CardDescription>Speak with our team</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-emerald-600 font-semibold">+1 (555) 123-4567</p>
-                  <p className="text-sm text-gray-600 mt-2">Mon-Fri, 9AM-6PM PST</p>
-                </CardContent>
-              </Card>
-
-              <Card className="text-center hover:shadow-lg transition-all duration-300">
-                <CardHeader>
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <MapPin className="h-8 w-8 text-white" />
-                  </div>
-                  <CardTitle>Visit Us</CardTitle>
-                  <CardDescription>Our headquarters</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-purple-600 font-semibold">San Francisco, CA</p>
-                  <p className="text-sm text-gray-600 mt-2">123 Innovation Drive</p>
-                </CardContent>
-              </Card>
-
-              <Card className="text-center hover:shadow-lg transition-all duration-300">
-                <CardHeader>
-                  <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <Clock className="h-8 w-8 text-white" />
-                  </div>
-                  <CardTitle>Response Time</CardTitle>
-                  <CardDescription>Quick support</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-orange-600 font-semibold">&lt; 24 hours</p>
-                  <p className="text-sm text-gray-600 mt-2">Average response time</p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Contact Form */}
+        {/* Contact Form and Contact Methods Side by Side */}
         <section className="py-20 bg-white">
-          <div className="max-w-4xl mx-auto px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                Send Us a Message
+                Get in Touch
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Tell us about your project and how we can help accelerate your DevOps journey.
               </p>
             </div>
 
-            <Card className="shadow-xl border-gray-100">
-              <CardContent className="p-8">
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Full Name *</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="John Smith" 
-                                {...field} 
-                                data-testid="input-name"
-                                className="h-12"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+            <div className="grid lg:grid-cols-2 gap-16 items-start">
+              {/* Contact Form - Left Side */}
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h3>
+                <Card className="shadow-xl border-gray-100">
+                  <CardContent className="p-8">
+                    <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                        <div className="grid md:grid-cols-2 gap-6">
+                          <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Full Name *</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    placeholder="John Smith" 
+                                    {...field} 
+                                    data-testid="input-name"
+                                    className="h-12"
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
 
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email Address *</FormLabel>
-                            <FormControl>
-                              <Input 
-                                type="email" 
-                                placeholder="john@company.com" 
-                                {...field} 
-                                data-testid="input-email"
-                                className="h-12"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                          <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Email Address *</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    type="email" 
+                                    placeholder="john@company.com" 
+                                    {...field} 
+                                    data-testid="input-email"
+                                    className="h-12"
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
 
-                    <FormField
-                      control={form.control}
-                      name="company"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Company (Optional)</FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="Your Company Name" 
-                              {...field} 
-                              data-testid="input-company"
-                              className="h-12"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        <FormField
+                          control={form.control}
+                          name="company"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Company (Optional)</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="Your Company Name" 
+                                  {...field} 
+                                  data-testid="input-company"
+                                  className="h-12"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                    <FormField
-                      control={form.control}
-                      name="subject"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Subject *</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger data-testid="select-subject" className="h-12">
-                                <SelectValue placeholder="Select a topic" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="general">General Inquiry</SelectItem>
-                              <SelectItem value="demo">Request a Demo</SelectItem>
-                              <SelectItem value="pricing">Pricing Information</SelectItem>
-                              <SelectItem value="support">Technical Support</SelectItem>
-                              <SelectItem value="partnership">Partnership Opportunities</SelectItem>
-                              <SelectItem value="other">Other</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        <FormField
+                          control={form.control}
+                          name="subject"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Subject *</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger data-testid="select-subject" className="h-12">
+                                    <SelectValue placeholder="Select a topic" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="general">General Inquiry</SelectItem>
+                                  <SelectItem value="demo">Request a Demo</SelectItem>
+                                  <SelectItem value="pricing">Pricing Information</SelectItem>
+                                  <SelectItem value="support">Technical Support</SelectItem>
+                                  <SelectItem value="partnership">Partnership Opportunities</SelectItem>
+                                  <SelectItem value="other">Other</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                    <FormField
-                      control={form.control}
-                      name="message"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Message *</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="Tell us about your project, current challenges, or how we can help..."
-                              className="min-h-32 resize-none"
-                              {...field}
-                              data-testid="textarea-message"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                        <FormField
+                          control={form.control}
+                          name="message"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Message *</FormLabel>
+                              <FormControl>
+                                <Textarea
+                                  placeholder="Tell us about your project, current challenges, or how we can help..."
+                                  className="min-h-32 resize-none"
+                                  {...field}
+                                  data-testid="textarea-message"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
 
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold text-lg border-0"
-                      data-testid="button-submit-contact"
-                    >
-                      <MessageSquare className="mr-2 h-5 w-5" />
-                      Send Message
-                    </Button>
-                  </form>
-                </Form>
-              </CardContent>
-            </Card>
+                        <Button 
+                          type="submit" 
+                          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold text-lg border-0"
+                          data-testid="button-submit-contact"
+                        >
+                          <MessageSquare className="mr-2 h-5 w-5" />
+                          Send Message
+                        </Button>
+                      </form>
+                    </Form>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Contact Methods - Right Side */}
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Other Ways to Reach Us</h3>
+                <div className="space-y-6">
+                  <Card className="hover:shadow-lg transition-all duration-300">
+                    <CardContent className="p-6">
+                      <div className="flex items-start space-x-4">
+                        <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                          <Mail className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2">Email Us</h4>
+                          <p className="text-blue-600 font-semibold">hello@omniinfra.com</p>
+                          <p className="text-sm text-gray-600 mt-1">We typically respond within 4 hours</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="hover:shadow-lg transition-all duration-300">
+                    <CardContent className="p-6">
+                      <div className="flex items-start space-x-4">
+                        <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                          <Phone className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2">Call Us</h4>
+                          <p className="text-emerald-600 font-semibold">+1 (555) 123-4567</p>
+                          <p className="text-sm text-gray-600 mt-1">Mon-Fri, 9AM-6PM PST</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="hover:shadow-lg transition-all duration-300">
+                    <CardContent className="p-6">
+                      <div className="flex items-start space-x-4">
+                        <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                          <MapPin className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2">Visit Us</h4>
+                          <p className="text-purple-600 font-semibold">San Francisco, CA</p>
+                          <p className="text-sm text-gray-600 mt-1">123 Innovation Drive</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="hover:shadow-lg transition-all duration-300">
+                    <CardContent className="p-6">
+                      <div className="flex items-start space-x-4">
+                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                          <Clock className="h-6 w-6 text-white" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 mb-2">Response Time</h4>
+                          <p className="text-orange-600 font-semibold">&lt; 24 hours</p>
+                          <p className="text-sm text-gray-600 mt-1">Average response time</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
