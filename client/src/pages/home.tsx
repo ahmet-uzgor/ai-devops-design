@@ -4,6 +4,7 @@ import Hero from "@/components/sections/hero";
 import Features from "@/components/sections/features";
 import HowItWorks from "@/components/sections/how-it-works";
 import SocialProof from "@/components/sections/social-proof";
+import DataVisualization from "@/components/sections/data-visualization";
 import Testimonials from "@/components/sections/testimonials";
 import FinalCTA from "@/components/sections/final-cta";
 
@@ -16,6 +17,7 @@ export default function Home() {
         <Features />
         <HowItWorks />
         <SocialProof />
+        <DataVisualization />
         <Testimonials />
         <FinalCTA />
       </main>

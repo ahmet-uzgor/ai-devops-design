@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Check, Play } from "lucide-react";
+import { FloatingElements } from "@/components/ui/floating-elements";
 
 export default function Hero() {
   return (
-    <section className="bg-white pt-32 pb-32 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="bg-white pt-32 pb-32 overflow-hidden relative">
+      <FloatingElements />
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-12 animate-fade-in">
             {/* Badge */}
@@ -84,13 +86,37 @@ export default function Hero() {
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-200/20 to-purple-200/20"></div>
                     <svg className="w-full h-full" viewBox="0 0 300 120">
                       <path d="M0,80 Q75,20 150,40 T300,30" stroke="url(#gradient)" strokeWidth="3" fill="none" className="animate-pulse"/>
+                      <path d="M0,100 Q100,60 200,70 T300,50" stroke="url(#gradient2)" strokeWidth="2" fill="none" className="animate-pulse" style={{animationDelay: '0.5s'}}/>
+                      <circle cx="150" cy="40" r="4" fill="url(#gradient)" className="animate-bounce" style={{animationDelay: '1s'}}/>
+                      <circle cx="75" cy="20" r="3" fill="#10B981" className="animate-ping" style={{animationDelay: '1.5s'}}/>
+                      <circle cx="225" cy="35" r="3" fill="#F59E0B" className="animate-pulse" style={{animationDelay: '2s'}}/>
                       <defs>
                         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
                           <stop offset="0%" stopColor="#3B82F6" />
                           <stop offset="100%" stopColor="#8B5CF6" />
                         </linearGradient>
+                        <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#10B981" />
+                          <stop offset="100%" stopColor="#3B82F6" />
+                        </linearGradient>
                       </defs>
                     </svg>
+                  </div>
+                  
+                  {/* Status indicators */}
+                  <div className="flex items-center justify-between pt-4">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                      <span className="text-xs text-gray-600 font-medium">Live</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-blue-400 rounded-full animate-ping"></div>
+                      <span className="text-xs text-gray-600 font-medium">Auto-scaling</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
+                      <span className="text-xs text-gray-600 font-medium">Optimizing</span>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -39,21 +39,42 @@ export default function HowItWorks() {
           {steps.map((step, index) => (
             <div 
               key={index}
-              className="bg-white rounded-3xl p-10 border border-gray-100 hover:border-gray-200 hover:shadow-xl transition-all duration-500 animate-fade-in group"
+              className="bg-white rounded-3xl p-10 border border-gray-100 hover:border-gray-200 hover:shadow-xl transition-all duration-500 animate-fade-in group relative overflow-hidden"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300">
-                <step.icon className="h-8 w-8 text-white" />
-              </div>
-              <div className="flex items-start space-x-6">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-lg flex-shrink-0 mt-1">
-                  {index + 1}
+              {/* Animated background elements */}
+              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-100/50 to-purple-100/50 rounded-full -translate-y-12 translate-x-12 group-hover:scale-150 transition-transform duration-700"></div>
+              <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-green-100/30 to-blue-100/30 rounded-full translate-y-8 -translate-x-8 group-hover:scale-125 transition-transform duration-500"></div>
+              
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                  <step.icon className="h-8 w-8 text-white" />
                 </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4 tracking-tight">{step.title}</h3>
-                  <p className="text-gray-600 leading-relaxed text-lg">
-                    {step.description}
-                  </p>
+                <div className="flex items-start space-x-6">
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-lg flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300">
+                    {index + 1}
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4 tracking-tight">{step.title}</h3>
+                    <p className="text-gray-600 leading-relaxed text-lg">
+                      {step.description}
+                    </p>
+                    
+                    {/* Progress indicator */}
+                    <div className="mt-6 flex items-center space-x-2">
+                      {[...Array(4)].map((_, i) => (
+                        <div 
+                          key={i}
+                          className={`h-2 rounded-full transition-all duration-500 ${
+                            i <= index 
+                              ? 'w-8 bg-gradient-to-r from-blue-500 to-purple-500' 
+                              : 'w-4 bg-gray-200'
+                          }`}
+                          style={{ transitionDelay: `${i * 100}ms` }}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
