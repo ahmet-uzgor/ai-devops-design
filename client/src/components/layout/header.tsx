@@ -69,9 +69,16 @@ export default function Header() {
             >
               Contact
             </Link>
-            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold border-0">
-              Start Free
-            </Button>
+            <div className="flex items-center space-x-4">
+              <Link href="/login" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+                Sign In
+              </Link>
+              <Link href="/signup">
+                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold border-0">
+                  Start Free
+                </Button>
+              </Link>
+            </div>
           </div>
           
           {/* Mobile menu button */}
@@ -131,9 +138,20 @@ export default function Header() {
               >
                 Contact
               </Link>
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold w-full border-0">
-                Start Free
-              </Button>
+              <div className="space-y-3">
+                <Link 
+                  href="/login" 
+                  className="text-gray-600 hover:text-blue-600 transition-colors text-left font-medium block"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Sign In
+                </Link>
+                <Link href="/signup" onClick={() => setIsMenuOpen(false)}>
+                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold w-full border-0">
+                    Start Free
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         )}
