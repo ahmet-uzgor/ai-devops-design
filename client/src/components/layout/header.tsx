@@ -14,15 +14,15 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
+    <header className="bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-primary-blue rounded-lg flex items-center justify-center">
+          <div className="flex items-center space-x-3">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg">
               <span className="text-white font-bold text-xl">O</span>
             </div>
-            <span className="text-xl font-semibold text-gray-900">OmniInfra</span>
+            <span className="text-2xl font-bold text-gray-900">OmniInfra</span>
           </div>
           
           {/* Desktop Navigation */}
@@ -45,7 +45,7 @@ export default function Header() {
             >
               Testimonials
             </button>
-            <Button className="bg-primary-blue text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold border-0">
               Start Free
             </Button>
           </div>
@@ -81,7 +81,7 @@ export default function Header() {
               >
                 Testimonials
               </button>
-              <Button className="bg-primary-blue text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium w-full">
+              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold w-full border-0">
                 Start Free
               </Button>
             </div>

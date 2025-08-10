@@ -51,10 +51,14 @@
   --tracking-normal: 0em;
   --spacing: 0.25rem;
   
-  /* OmniInfra specific colors */
-  --primary-blue: hsl(221.2 83.2% 53.3%);
-  --light-blue: hsl(217.2 91.2% 59.8%);
-  --accent-blue: hsl(213.3 93.9% 67.8%);
+  /* OmniInfra specific colors - Cast.ai inspired */
+  --primary-blue: hsl(221 83% 53%);
+  --light-blue: hsl(217 91% 60%);
+  --accent-blue: hsl(213 94% 68%);
+  --gradient-start: hsl(221 83% 53%);
+  --gradient-end: hsl(261 83% 58%);
+  --surface-subtle: hsl(240 5% 96%);
+  --text-muted: hsl(240 4% 46%);
 }
 
 .dark {
@@ -104,9 +108,13 @@
   --shadow-2xl: 0px 2px 0px 0px hsl(221.2 83.2% 53.3% / 0.00);
   
   /* OmniInfra specific colors for dark mode */
-  --primary-blue: hsl(221.2 83.2% 53.3%);
-  --light-blue: hsl(217.2 91.2% 59.8%);
-  --accent-blue: hsl(213.3 93.9% 67.8%);
+  --primary-blue: hsl(221 83% 53%);
+  --light-blue: hsl(217 91% 60%);
+  --accent-blue: hsl(213 94% 68%);
+  --gradient-start: hsl(221 83% 53%);
+  --gradient-end: hsl(261 83% 58%);
+  --surface-subtle: hsl(240 15% 9%);
+  --text-muted: hsl(240 4% 64%);
 }
 
 @layer base {

@@ -25,11 +25,11 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="bg-gray-50 py-20">
+    <section id="how-it-works" className="bg-gradient-to-b from-gray-50 to-white py-32">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        <div className="text-center mb-20 animate-fade-in">
+          <h2 className="text-5xl font-bold text-gray-900 mb-6 tracking-tight">How It Works</h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             From repository connection to production deployment in four simple steps
           </p>
         </div>
@@ -39,19 +39,19 @@ export default function HowItWorks() {
           {steps.map((step, index) => (
             <div 
               key={index}
-              className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in group"
+              className="bg-white rounded-3xl p-10 border border-gray-100 hover:border-gray-200 hover:shadow-xl transition-all duration-500 animate-fade-in group"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="w-12 h-12 bg-primary-blue rounded-lg flex items-center justify-center mb-6 group-hover:bg-light-blue transition-colors">
-                <step.icon className="h-6 w-6 text-white" />
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300">
+                <step.icon className="h-8 w-8 text-white" />
               </div>
-              <div className="flex items-start space-x-4">
-                <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-primary-blue font-bold text-sm flex-shrink-0 mt-1">
+              <div className="flex items-start space-x-6">
+                <div className="w-10 h-10 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-lg flex-shrink-0 mt-1">
                   {index + 1}
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">{step.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4 tracking-tight">{step.title}</h3>
+                  <p className="text-gray-600 leading-relaxed text-lg">
                     {step.description}
                   </p>
                 </div>
