@@ -1,0 +1,45 @@
+Hero Section
+Title:
+Pioneering the Future of DevOps with AI-Powered Automation
+
+Subtitle:
+We’re transforming how teams build, deploy, and manage infrastructure — faster, smarter, and more securely — with intelligent AI agents.
+
+Visual:
+
+An illustration or animation showing AI “agents” orchestrating servers, pipelines, and scaling in real-time.
+
+Or a split-screen: manual DevOps process vs OmniInfra automation.
+
+Our Mission
+At OmniInfra, our mission is to democratize advanced DevOps capabilities. We empower teams of all sizes to leverage the same high-level automation once reserved for enterprise giants — without the complexity.
+
+We believe the future of IT operations lies in intelligent automation that learns, adapts, and optimizes. Our AI agents are built to understand your unique infrastructure needs, ensure maximum uptime, and maintain security at scale — so you can focus on innovation, not configuration.
+
+Our Vision
+To become the world’s most trusted AI-driven infrastructure platform, enabling any developer, anywhere to deploy production-ready applications in minutes, not months.
+
+What Makes Us Different
+AI-First Architecture — Not just scripts, but intelligent systems that analyze, decide, and act.
+
+Speed Without Sacrificing Security — Secure by design, from pipelines to production.
+
+Predictive Insights — We don’t just respond to issues, we prevent them.
+
+Human + AI Synergy — Built for teams that want control and visibility without operational bottlenecks.
+
+Our Story
+Founded by a team of backend and frontend engineers who had seen too many teams struggle with manual DevOps, OmniInfra started as an internal tool to speed up deployments.
+What began as a time-saving experiment quickly became a full-fledged platform used by teams to cut deployment times from hours to minutes — all with built-in scaling, monitoring, and security.
+
+Leadership Team
+(You already have images and bios, but we can enhance them)
+
+Keep bios concise but results-focused (e.g., “Led X+ successful infrastructure deployments,” “Built and scaled cloud platforms for Y industry”).
+
+Add LinkedIn icons for professional validation.
+
+Call to Action
+Close the About page with a softer CTA:
+“Want to see how OmniInfra can transform your DevOps?”
+[Start Free Trial] [Book a Demo]
