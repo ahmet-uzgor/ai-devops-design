@@ -111,6 +111,28 @@ export default function About() {
               <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
                 What Makes Us Different
               </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Real results from teams who've transformed their DevOps workflows
+              </p>
+            </div>
+            
+            {/* Metrics Row */}
+            <div className="grid md:grid-cols-3 gap-8 mb-16">
+              <div className="text-center">
+                <div className="text-4xl lg:text-5xl font-bold text-blue-600 mb-2">90%</div>
+                <p className="text-lg text-gray-700 font-semibold">Faster Deployments</p>
+                <p className="text-gray-600">Compared to manual DevOps processes</p>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl lg:text-5xl font-bold text-purple-600 mb-2">75%</div>
+                <p className="text-lg text-gray-700 font-semibold">Fewer Operational Incidents</p>
+                <p className="text-gray-600">Through predictive monitoring and AI</p>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl lg:text-5xl font-bold text-emerald-600 mb-2">12+</div>
+                <p className="text-lg text-gray-700 font-semibold">Countries</p>
+                <p className="text-gray-600">Teams worldwide trust OmniInfra</p>
+              </div>
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -171,6 +193,9 @@ export default function About() {
                   </p>
                   <p>
                     What began as a time-saving experiment quickly became a full-fledged platform used by teams to cut deployment times from hours to minutes — all with built-in scaling, monitoring, and security.
+                  </p>
+                  <p>
+                    Today, teams across 12+ countries rely on OmniInfra to achieve 90% faster deployments while reducing operational incidents by 75% through our intelligent automation.
                   </p>
                 </div>
               </div>
