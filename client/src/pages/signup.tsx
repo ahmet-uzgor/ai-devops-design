@@ -76,6 +76,53 @@ export default function Signup() {
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-blue-50 to-purple-50 pt-32 pb-20 overflow-hidden relative">
           <FloatingElements />
+          
+          {/* Left Side Visual Elements */}
+          <div className="absolute left-8 top-1/2 transform -translate-y-1/2 hidden lg:block">
+            <div className="space-y-8">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 w-64">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                  <div className="text-sm font-medium text-gray-700">Deployment Status</div>
+                </div>
+                <div className="text-2xl font-bold text-gray-900 mb-2">90% Faster</div>
+                <div className="text-sm text-gray-600">Average deployment time reduced from hours to minutes</div>
+              </div>
+              
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 w-64">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
+                  <div className="text-sm font-medium text-gray-700">AI Monitoring</div>
+                </div>
+                <div className="text-2xl font-bold text-gray-900 mb-2">24/7 Active</div>
+                <div className="text-sm text-gray-600">Intelligent monitoring prevents 75% of incidents</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side Visual Elements */}
+          <div className="absolute right-8 top-1/2 transform -translate-y-1/2 hidden lg:block">
+            <div className="space-y-8">
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 w-64">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
+                  <div className="text-sm font-medium text-gray-700">Global Reach</div>
+                </div>
+                <div className="text-2xl font-bold text-gray-900 mb-2">12+ Countries</div>
+                <div className="text-sm text-gray-600">Teams worldwide trust OmniInfra</div>
+              </div>
+              
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 w-64">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="w-3 h-3 bg-emerald-400 rounded-full"></div>
+                  <div className="text-sm font-medium text-gray-700">Security Score</div>
+                </div>
+                <div className="text-2xl font-bold text-gray-900 mb-2">99.9% Uptime</div>
+                <div className="text-sm text-gray-600">Enterprise-grade security and reliability</div>
+              </div>
+            </div>
+          </div>
+
           <div className="max-w-lg mx-auto px-6 lg:px-8 relative z-10">
             <div className="text-center space-y-6 animate-fade-in mb-8">
               <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 border border-blue-200">
