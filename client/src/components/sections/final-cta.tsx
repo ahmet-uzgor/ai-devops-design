@@ -8,7 +8,10 @@ export default function FinalCTA() {
         <h2 className="text-4xl lg:text-5xl font-bold text-white mb-6">
           Ready to Deploy in Minutes?
         </h2>
-        <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+        <p className="text-xl text-blue-100 mb-2 leading-relaxed">
+          Don't let manual DevOps slow you down — launch your next app today.
+        </p>
+        <p className="text-lg text-blue-100 mb-8 leading-relaxed">
           Join thousands of teams who've streamlined their DevOps with AI-powered automation. 
           Start your free trial today and experience the future of infrastructure management.
         </p>
