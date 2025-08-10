@@ -1,29 +1,31 @@
+import { GitBranch, Brain, Settings, Rocket } from "lucide-react";
+
 export default function HowItWorks() {
   const steps = [
     {
-      number: 1,
+      icon: GitBranch,
       title: "Connect Repository",
       description: "Link your GitHub, GitLab, or Bitbucket repository with one click. Our platform securely accesses your codebase."
     },
     {
-      number: 2,
+      icon: Brain,
       title: "AI Analysis",
       description: "Our AI agents analyze your code structure, dependencies, and requirements to determine optimal deployment strategy."
     },
     {
-      number: 3,
+      icon: Settings,
       title: "Auto CI/CD Setup",
       description: "Automated pipeline creation with testing, building, and deployment workflows tailored to your project needs."
     },
     {
-      number: 4,
+      icon: Rocket,
       title: "Deploy & Scale",
       description: "Launch your application to production with automated scaling, monitoring, and security measures in place."
     }
   ];
 
   return (
-    <section id="how-it-works" className="bg-white py-24">
+    <section id="how-it-works" className="bg-gray-50 py-20">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
@@ -32,28 +34,30 @@ export default function HowItWorks() {
           </p>
         </div>
         
-        {/* Linear Timeline Flow */}
-        <div className="relative">
-          {/* Timeline line */}
-          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 transform -translate-y-1/2"></div>
-          
-          <div className="grid lg:grid-cols-4 gap-8 lg:gap-4">
-            {steps.map((step, index) => (
-              <div 
-                key={index}
-                className="relative text-center lg:text-left animate-fade-in"
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-blue text-white rounded-full text-xl font-bold mb-6 relative z-10 hover:bg-light-blue transition-colors">
-                  {step.number}
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{step.title}</h3>
-                <p className="text-gray-600">
-                  {step.description}
-                </p>
+        {/* 2x2 Card Grid */}
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+          {steps.map((step, index) => (
+            <div 
+              key={index}
+              className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in group"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <div className="w-12 h-12 bg-primary-blue rounded-lg flex items-center justify-center mb-6 group-hover:bg-light-blue transition-colors">
+                <step.icon className="h-6 w-6 text-white" />
               </div>
-            ))}
-          </div>
+              <div className="flex items-start space-x-4">
+                <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-primary-blue font-bold text-sm flex-shrink-0 mt-1">
+                  {index + 1}
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">{step.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
