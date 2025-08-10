@@ -63,6 +63,12 @@ export default function Header() {
             >
               About
             </Link>
+            <Link 
+              href="/contact" 
+              className={`transition-colors ${location === "/contact" ? "text-blue-600 font-semibold" : "text-gray-600 hover:text-blue-600"}`}
+            >
+              Contact
+            </Link>
             <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold border-0">
               Start Free
             </Button>
@@ -117,6 +123,13 @@ export default function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 About
+              </Link>
+              <Link 
+                href="/contact" 
+                className={`transition-colors text-left ${location === "/contact" ? "text-blue-600 font-semibold" : "text-gray-600 hover:text-blue-600"}`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Contact
               </Link>
               <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold w-full border-0">
                 Start Free
