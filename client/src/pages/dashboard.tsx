@@ -4,7 +4,7 @@ import { DashboardCard, DashboardCardHeader, DashboardCardContent, DashboardCard
 import { Badge } from '@/components/ui/dashboard-badge';
 import { Skeleton, SkeletonText, SkeletonCard } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/ToastProvider';
-import DashboardHeader from '@/components/layout/dashboard-header';
+import DashboardSidebar from '@/components/layout/dashboard-sidebar';
 import { RequireAuth } from '@/lib/auth';
 import {
   getUser,
@@ -163,9 +163,9 @@ export default function Dashboard() {
   return (
     <RequireAuth>
       <div className="min-h-screen bg-gray-50">
-        <DashboardHeader />
-        <main className="pt-20 pb-12">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <DashboardSidebar />
+        <main className="lg:ml-64 p-4 lg:p-8">
+        <div className="max-w-7xl mx-auto">
           {/* Welcome Header */}
           <div className="mb-8">
             {loading ? (
@@ -341,7 +341,7 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-      </main>
+        </main>
       </div>
     </RequireAuth>
   );
