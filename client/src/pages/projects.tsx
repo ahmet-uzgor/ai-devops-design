@@ -212,14 +212,14 @@ export default function Projects() {
 
                           {/* Quick Actions */}
                           <div className="flex space-x-2 pt-2">
-                            <Link href={`/dashboard`} className="flex-1">
+                            <Link href={`/dashboard/projects/${project.id}`} className="flex-1">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
                                 className="w-full"
                                 data-testid={`button-manage-${project.id}`}
                               >
-                                Manage
+                                View Details
                               </Button>
                             </Link>
                             {project.lastDeployAt && (

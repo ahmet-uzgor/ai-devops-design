@@ -8,6 +8,12 @@ OmniInfra is an AI-powered DevOps platform designed to simplify infrastructure m
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes
+
+- **Project Details Page Added** (August 13, 2025): Created comprehensive project details page with tabbed interface showing overview, deployments, environment variables, and domains. Includes setup progress tracking, project analysis results, and quick actions sidebar.
+- **Enhanced Navigation** (August 13, 2025): Updated projects page to link to individual project detail pages for better user experience.
+- **Project Schema Enhancement** (August 13, 2025): Extended shared schema to include detailed project model with proper database fields for project management.
+
 ## System Architecture
 
 ### Frontend Architecture
