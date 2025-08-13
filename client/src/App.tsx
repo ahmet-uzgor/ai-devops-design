@@ -11,6 +11,7 @@ import Signup from "@/pages/signup";
 import Dashboard from "@/pages/dashboard";
 import NotFound from "@/pages/not-found";
 import { ToastProvider } from "@/components/ui/ToastProvider";
+import { AuthProvider } from "@/lib/auth";
 
 function Router() {
   return (
@@ -30,10 +31,12 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <ToastProvider>
-          <Router />
-          <Toaster />
-        </ToastProvider>
+        <AuthProvider>
+          <ToastProvider>
+            <Router />
+            <Toaster />
+          </ToastProvider>
+        </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

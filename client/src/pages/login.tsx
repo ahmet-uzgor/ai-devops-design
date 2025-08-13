@@ -12,8 +12,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { Link } from "wouter";
-import { useState } from "react";
+import { Link, useLocation } from "wouter";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/lib/auth";
 
 const loginFormSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -24,7 +25,9 @@ type LoginFormData = z.infer<typeof loginFormSchema>;
 
 export default function Login() {
   const { toast } = useToast();
+  const { login, isAuthenticated, isLoading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [, setLocation] = useLocation();
   
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
@@ -34,13 +37,28 @@ export default function Login() {
     },
   });
 
-  const onSubmit = (data: LoginFormData) => {
-    // Form submission will be handled later
-    console.log("Login form submitted:", data);
-    toast({
-      title: "Welcome back!",
-      description: "You have successfully signed in to OmniInfra.",
-    });
+  useEffect(() => {
+    if (isAuthenticated) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirect = urlParams.get('redirect');
+      setLocation(redirect === 'dashboard' ? '/dashboard' : '/');
+    }
+  }, [isAuthenticated, setLocation]);
+
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      await login(data.email, data.password);
+      toast({
+        title: "Welcome back!",
+        description: "You have successfully signed in to OmniInfra.",
+      });
+    } catch (error) {
+      toast({
+        title: "Login failed",
+        description: "Please check your credentials and try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleGithubLogin = () => {
@@ -268,10 +286,11 @@ export default function Login() {
 
                     <Button 
                       type="submit" 
+                      disabled={isLoading}
                       className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white h-12 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold border-0"
                       data-testid="button-login"
                     >
-                      Sign In
+                      {isLoading ? "Signing In..." : "Sign In"}
                     </Button>
                   </form>
                 </Form>

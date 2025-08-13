@@ -70,12 +70,6 @@ export default function Header() {
               Contact
             </Link>
             <div className="flex items-center space-x-4">
-              <Link 
-                href="/dashboard" 
-                className={`transition-colors ${location === "/dashboard" ? "text-blue-600 font-semibold" : "text-gray-600 hover:text-blue-600"}`}
-              >
-                Dashboard
-              </Link>
               <Link href="/login" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
                 Sign In
               </Link>
@@ -143,13 +137,6 @@ export default function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact
-              </Link>
-              <Link
-                href="/dashboard"
-                className={`transition-colors text-left block ${location === "/dashboard" ? "text-blue-600 font-semibold" : "text-gray-600 hover:text-blue-600"}`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Dashboard
               </Link>
               <div className="space-y-3">
                 <Link 

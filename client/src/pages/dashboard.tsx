@@ -4,8 +4,8 @@ import { DashboardCard, DashboardCardHeader, DashboardCardContent, DashboardCard
 import { Badge } from '@/components/ui/dashboard-badge';
 import { Skeleton, SkeletonText, SkeletonCard } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/ToastProvider';
-import Header from '@/components/layout/header';
-import Footer from '@/components/layout/footer';
+import DashboardHeader from '@/components/layout/dashboard-header';
+import { RequireAuth } from '@/lib/auth';
 import {
   getUser,
   getProjects,
@@ -161,9 +161,10 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <main className="pt-24 pb-12">
+    <RequireAuth>
+      <div className="min-h-screen bg-gray-50">
+        <DashboardHeader />
+        <main className="pt-20 pb-12">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Welcome Header */}
           <div className="mb-8">
@@ -341,7 +342,7 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
-      <Footer />
-    </div>
+      </div>
+    </RequireAuth>
   );
 }
