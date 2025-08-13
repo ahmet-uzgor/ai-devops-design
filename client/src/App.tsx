@@ -9,6 +9,7 @@ import Contact from "@/pages/contact";
 import Login from "@/pages/login";
 import Signup from "@/pages/signup";
 import Dashboard from "@/pages/dashboard";
+import Projects from "@/pages/projects";
 import NotFound from "@/pages/not-found";
 import { ToastProvider } from "@/components/ui/ToastProvider";
 import { AuthProvider } from "@/lib/auth";
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/dashboard/projects" component={Projects} />
       <Route component={NotFound} />
     </Switch>
   );

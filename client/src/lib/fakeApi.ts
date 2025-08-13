@@ -45,6 +45,55 @@ let projects: Project[] = [
     serverId: "srv-analytics-1",
     ciCdSetup: true,
     lastDeployAt: "2024-12-10T15:30:00Z"
+  },
+  {
+    id: "proj-3",
+    name: "E-commerce Platform",
+    githubRepo: { full_name: "company/ecommerce" },
+    lastAnalysisResult: { apps: [{ name: "frontend" }, { name: "backend" }, { name: "admin" }], isMonorepo: true },
+    envs: {
+      frontend: { values: { API_URL: "https://api.example.com" }, updatedAt: "2024-12-09T14:20:00Z" },
+      backend: { values: { DATABASE_URL: "postgres://...", STRIPE_KEY: "sk_..." }, updatedAt: "2024-12-09T14:20:00Z" }
+    },
+    domains: { frontend: "shop.omniinfra.co", backend: "api.shop.omniinfra.co", admin: "admin.shop.omniinfra.co" },
+    serverId: "srv-ecommerce-1",
+    ciCdSetup: true,
+    lastDeployAt: "2024-12-09T16:45:00Z"
+  },
+  {
+    id: "proj-4",
+    name: "Marketing Website",
+    githubRepo: { full_name: "company/marketing-site" },
+    lastAnalysisResult: { apps: [{ name: "website" }], isMonorepo: false },
+    envs: {
+      website: { values: { CMS_API: "https://cms.example.com" }, updatedAt: "2024-12-08T11:30:00Z" }
+    },
+    domains: { website: "marketing.omniinfra.co" },
+    serverId: "srv-marketing-1",
+    ciCdSetup: true,
+    lastDeployAt: "2024-12-08T12:15:00Z"
+  },
+  {
+    id: "proj-5",
+    name: "Mobile API Gateway",
+    githubRepo: { full_name: "company/mobile-gateway" },
+    lastAnalysisResult: { apps: [{ name: "gateway" }], isMonorepo: false },
+    envs: undefined,
+    domains: undefined,
+    serverId: undefined,
+    ciCdSetup: false,
+    lastDeployAt: null
+  },
+  {
+    id: "proj-6",
+    name: "Data Processing Pipeline",
+    githubRepo: undefined,
+    lastAnalysisResult: undefined,
+    envs: undefined,
+    domains: undefined,
+    serverId: undefined,
+    ciCdSetup: false,
+    lastDeployAt: null
   }
 ];
 
