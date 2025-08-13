@@ -1,0 +1,141 @@
+PROMPT FOR REPLIT AI — “Dashboard page only (React, no backend)”
+
+Create a Dashboard page (single file + tiny helpers) for the OmniInfra app. this will be included in the same project.
+
+Files to create/update
+
+src/routes/Dashboard.tsx (main page to implement)
+
+src/lib/fakeApi.ts (minimal mock data + actions for the checklist)
+
+src/components/ui/ToastProvider.tsx (very small toast system)
+
+src/components/ui/{Card,Button,Badge,Skeleton}.tsx (simple, minimal UI)
+
+Do not change other routes or global setup. If App.tsx already has routing, just export the Dashboard component — I’ll wire the route myself.
+
+1) Dashboard.tsx — requirements
+
+Welcome header: “Welcome, {firstName}” (read from fakeApi.getUser(); fallback Welcome back).
+
+Getting Started Checklist — use the first project from fakeApi.getProjects() to compute 6 steps:
+
+Connect GitHub → ✅ if project.githubRepo?.full_name
+
+Analyze Project → ✅ if project.lastAnalysisResult?.apps?.length > 0
+
+Add Envs → ✅ if for each app.name in apps, project.envs?.[app.name]?.values has ≥ 1 key
+
+Domain & Server → ✅ if project.serverId AND every app has a project.domains?.[appName]
+
+Set up CI/CD → ✅ if project.ciCdSetup === true
+
+Deploy → ✅ if project.lastDeployAt is a non-null ISO string
+
+Each step shows:
+
+label + a Badge for status: Done (green) or Action needed (amber)
+
+a primary button to perform a mock action (see fakeApi functions below). After action, show a toast and reload local state.
+
+Recent activity: simple list (up to 5 items) from fakeApi.getActivity().
+
+Loading states: show Skeleton blocks while fetching mock data.
+
+Toasts: use the ToastProvider (below) — toast.success("…"), toast.error("…").
+
+Buttons & actions on the checklist:
+
+Connect GitHub → fakeApi.connectGithub(project.id) → sets githubRepo.full_name = "owner/repo".
+
+Analyze → fakeApi.analyzeProject(project.id) → sets lastAnalysisResult with { apps: [{name:'backend'}], isMonorepo:true }.
+
+Add Envs → fakeApi.addSomeEnvs(project.id) → sets one env key for each app.
+
+Domain & Server → fakeApi.configureDomainAndServer(project.id) → sets serverId and domain for each app (e.g., demo.omniinfra.co).
+
+Set up CI/CD → fakeApi.setupCICD(project.id) → sets ciCdSetup = true.
+
+Deploy → fakeApi.deployProject(project.id) → sets lastDeployAt = new Date().toISOString() and pushes a new activity row.
+
+Layout suggestion (simple):
+
+A hero card with the welcome + checklist (grid of 6 items)
+
+A sidebar or a right column card with recent activity
+
+Keep spacing/typography clean; minimal CSS.
+
+2) fakeApi.ts — minimal mock layer
+
+Export Promise-based functions with setTimeout to simulate latency (300–600ms). Keep in-memory data only.
+
+Types:
+
+export type AppInfo = { name: string; path?: string };
+
+export type Project = {
+  id: string;
+  name: string;
+  githubRepo?: { full_name: string };
+  lastAnalysisResult?: { apps: AppInfo[]; isMonorepo: boolean; reason?: string };
+  envs?: Record<string, { values: Record<string, string>; updatedAt: string }>;
+  domains?: Record<string, string>;
+  serverId?: string;
+  ciCdSetup?: boolean;
+  lastDeployAt?: string | null;
+};
+
+export type ActivityItem = { id: string; text: string; at: string };
+
+Seed state:
+
+one “healthy-ish” project and one “needs setup” project.
+
+APIs to implement:
+
+export async function getUser(): Promise<{ firstName: string; email: string }>;
+export async function getProjects(): Promise<Project[]>;
+export async function connectGithub(projectId: string): Promise<void>;
+export async function analyzeProject(projectId: string): Promise<void>;
+export async function addSomeEnvs(projectId: string): Promise<void>;
+export async function configureDomainAndServer(projectId: string): Promise<void>;
+export async function setupCICD(projectId: string): Promise<{ prUrl: string }>;
+export async function deployProject(projectId: string): Promise<void>;
+export async function getActivity(): Promise<ActivityItem[]>;
+
+Each mutating action should update the in-memory project, push a short activity (e.g., “Analyzed project X”), and resolve.
+
+Dashboard state flow
+
+On mount: load user + projects + activity.
+
+Pick primaryProject = projects[0] || null.
+
+Compute checklist booleans from primaryProject.
+
+When a button is clicked:
+
+call corresponding fakeApi function
+
+toast.success("…")
+
+re-read projects/activity and re-render
+
+Acceptance (what I expect to see)
+
+A single Dashboard.tsx page that renders:
+
+Welcome header
+
+A 6-step checklist with status badges + action buttons (all actions work and update UI)
+
+A recent activity list
+
+Skeletons during the initial load
+
+Success toasts after actions
+
+No real network calls; everything is local mock state.
+
+Please generate these files with clean, readable TypeScript React code. Do not modify other routes or app structure.

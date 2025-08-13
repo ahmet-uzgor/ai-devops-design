@@ -8,7 +8,9 @@ import About from "@/pages/about";
 import Contact from "@/pages/contact";
 import Login from "@/pages/login";
 import Signup from "@/pages/signup";
+import Dashboard from "@/pages/dashboard";
 import NotFound from "@/pages/not-found";
+import { ToastProvider } from "@/components/ui/ToastProvider";
 
 function Router() {
   return (
@@ -18,6 +20,7 @@ function Router() {
       <Route path="/contact" component={Contact} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
+      <Route path="/dashboard" component={Dashboard} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -27,8 +30,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Router />
+        <ToastProvider>
+          <Router />
+          <Toaster />
+        </ToastProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );
