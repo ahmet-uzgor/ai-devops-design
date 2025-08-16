@@ -1,0 +1,55 @@
+{
+  "common": {
+    "loading": "加载中...",
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "edit": "编辑",
+    "create": "创建",
+    "update": "更新",
+    "confirm": "确认",
+    "back": "返回",
+    "next": "下一个",
+    "previous": "上一个",
+    "close": "关闭",
+    "yes": "是",
+    "no": "否",
+    "settings": "设置",
+    "view": "查看",
+    "manage": "管理",
+    "configure": "配置",
+    "deploy": "部署",
+    "setup": "设置",
+    "active": "活跃",
+    "inactive": "非活跃",
+    "success": "成功",
+    "error": "错误",
+    "warning": "警告",
+    "info": "信息"
+  },
+  "navigation": {
+    "home": "首页",
+    "about": "关于",
+    "contact": "联系",
+    "dashboard": "仪表板",
+    "projects": "项目",
+    "login": "登录",
+    "signup": "注册",
+    "logout": "退出"
+  },
+  "dashboard": {
+    "title": "仪表板",
+    "welcome": "欢迎回来",
+    "quickActions": "快速操作",
+    "recentActivity": "最近活动",
+    "totalProjects": "项目总数"
+  },
+  "projects": {
+    "title": "项目",
+    "subtitle": "管理和部署您的应用程序",
+    "noProjects": "还没有项目",
+    "createFirst": "创建您的第一个项目",
+    "viewDetails": "查看详情",
+    "setupProgress": "设置进度"
+  }
+}

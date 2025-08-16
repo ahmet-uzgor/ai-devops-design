@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { DashboardCard, DashboardCardHeader, DashboardCardContent, DashboardCardTitle } from '@/components/ui/dashboard-card';
 import { Badge } from '@/components/ui/dashboard-badge';
@@ -26,6 +27,7 @@ import {
 import { Link } from 'wouter';
 
 export default function Projects() {
+  const { t } = useTranslation();
   const { success } = useToast();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -80,9 +82,9 @@ export default function Projects() {
             {/* Header */}
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Projects</h1>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('projects.title', 'Projects')}</h1>
                 <p className="text-lg text-gray-600">
-                  Manage your infrastructure projects and deployments
+                  {t('projects.subtitle', 'Manage your infrastructure projects and deployments')}
                 </p>
               </div>
               <Button 
@@ -108,16 +110,16 @@ export default function Projects() {
                   <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
                     <Plus className="h-12 w-12 text-gray-400" />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">No projects yet</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{t('projects.noProjects', 'No projects yet')}</h3>
                   <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                    Get started by creating your first project. Connect your repository and let OmniInfra handle the rest.
+                    {t('projects.noProjectsDesc', 'Get started by creating your first project. Connect your repository and let OmniInfra handle the rest.')}
                   </p>
                   <Button 
                     onClick={handleCreateProject}
                     className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold border-0"
                   >
                     <Plus className="h-5 w-5 mr-2" />
-                    Create Your First Project
+                    {t('projects.createFirst', 'Create Your First Project')}
                   </Button>
                 </DashboardCardContent>
               </DashboardCard>
@@ -219,7 +221,7 @@ export default function Projects() {
                                 className="w-full"
                                 data-testid={`button-manage-${project.id}`}
                               >
-                                View Details
+                                {t('projects.viewDetails', 'View Details')}
                               </Button>
                             </Link>
                             {project.lastDeployAt && (

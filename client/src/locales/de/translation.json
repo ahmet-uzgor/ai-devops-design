@@ -1,0 +1,55 @@
+{
+  "common": {
+    "loading": "Wird geladen...",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "create": "Erstellen",
+    "update": "Aktualisieren",
+    "confirm": "Bestätigen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Vorherige",
+    "close": "Schließen",
+    "yes": "Ja",
+    "no": "Nein",
+    "settings": "Einstellungen",
+    "view": "Ansehen",
+    "manage": "Verwalten",
+    "configure": "Konfigurieren",
+    "deploy": "Bereitstellen",
+    "setup": "Einrichten",
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "success": "Erfolg",
+    "error": "Fehler",
+    "warning": "Warnung",
+    "info": "Information"
+  },
+  "navigation": {
+    "home": "Startseite",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "dashboard": "Dashboard",
+    "projects": "Projekte",
+    "login": "Anmelden",
+    "signup": "Registrieren",
+    "logout": "Abmelden"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Willkommen zurück",
+    "quickActions": "Schnellaktionen",
+    "recentActivity": "Letzte Aktivität",
+    "totalProjects": "Projekte insgesamt"
+  },
+  "projects": {
+    "title": "Projekte",
+    "subtitle": "Verwalten und bereitstellen Sie Ihre Anwendungen",
+    "noProjects": "Noch keine Projekte",
+    "createFirst": "Ihr erstes Projekt erstellen",
+    "viewDetails": "Details anzeigen",
+    "setupProgress": "Einrichtungsfortschritt"
+  }
+}

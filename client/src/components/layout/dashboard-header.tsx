@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
+import { LanguageSelector } from "@/components/ui/language-selector";
 import { Menu, X, Home, User, Settings, LogOut } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
 export default function DashboardHeader() {
+  const { t } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [location] = useLocation();
   const { logout, user } = useAuth();
@@ -32,13 +35,13 @@ export default function DashboardHeader() {
               href="/dashboard" 
               className={`transition-colors ${location === "/dashboard" ? "text-blue-600 font-semibold" : "text-gray-600 hover:text-blue-600"}`}
             >
-              Dashboard
+              {t('navigation.dashboard', 'Dashboard')}
             </Link>
             <Link 
               href="/dashboard/projects" 
               className={`transition-colors ${location === "/dashboard/projects" ? "text-blue-600 font-semibold" : "text-gray-600 hover:text-blue-600"}`}
             >
-              Projects
+              {t('navigation.projects', 'Projects')}
             </Link>
             <Link 
               href="/dashboard/deployments" 
@@ -56,12 +59,13 @@ export default function DashboardHeader() {
 
           {/* Right Side Actions */}
           <div className="hidden md:flex items-center space-x-4">
+            <LanguageSelector />
             <Link 
               href="/" 
               className="text-gray-600 hover:text-blue-600 transition-colors font-medium flex items-center space-x-1"
             >
               <Home className="h-4 w-4" />
-              <span>Homepage</span>
+              <span>{t('navigation.home', 'Homepage')}</span>
             </Link>
             
             <div className="relative group">
