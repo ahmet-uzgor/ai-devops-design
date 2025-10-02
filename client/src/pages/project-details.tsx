@@ -41,7 +41,14 @@ import {
   Play,
   RefreshCw,
   Eye,
-  Edit
+  Edit,
+  AlertTriangle,
+  Lightbulb,
+  Layers,
+  Cloud,
+  FileCode,
+  Zap,
+  TrendingUp
 } from 'lucide-react';
 import { Link } from 'wouter';
 
@@ -385,20 +392,179 @@ export default function ProjectDetails() {
                       </DashboardCardContent>
                     </DashboardCard>
 
-                    {/* Project Analysis */}
-                    {project.lastAnalysisResult && (
+                    {/* Warnings & Alerts */}
+                    {project.lastAnalysisResult?.warnings && project.lastAnalysisResult.warnings.length > 0 && (
+                      <DashboardCard className="border-orange-200 dark:border-orange-900">
+                        <DashboardCardHeader>
+                          <DashboardCardTitle className="flex items-center gap-2 text-orange-600 dark:text-orange-400">
+                            <AlertTriangle className="h-5 w-5" />
+                            Warnings
+                          </DashboardCardTitle>
+                        </DashboardCardHeader>
+                        <DashboardCardContent>
+                          <ul className="space-y-2">
+                            {project.lastAnalysisResult.warnings.map((warning: string, index: number) => (
+                              <li key={index} className="flex items-start gap-2 text-sm">
+                                <AlertCircle className="h-4 w-4 text-orange-500 mt-0.5 flex-shrink-0" />
+                                <span>{warning}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </DashboardCardContent>
+                      </DashboardCard>
+                    )}
+
+                    {/* Recommendations */}
+                    {project.lastAnalysisResult?.recommendations && (
+                      <DashboardCard>
+                        <DashboardCardHeader>
+                          <DashboardCardTitle className="flex items-center gap-2">
+                            <Lightbulb className="h-5 w-5 text-yellow-500" />
+                            Recommendations
+                          </DashboardCardTitle>
+                        </DashboardCardHeader>
+                        <DashboardCardContent>
+                          <div className="space-y-4">
+                            {project.lastAnalysisResult.recommendations.immediate && (
+                              <div>
+                                <h4 className="text-sm font-semibold text-red-600 dark:text-red-400 mb-2">Immediate Actions</h4>
+                                <ul className="space-y-1 ml-4">
+                                  {project.lastAnalysisResult.recommendations.immediate.map((rec: string, index: number) => (
+                                    <li key={index} className="text-sm list-disc">{rec}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            {project.lastAnalysisResult.recommendations.shortTerm && (
+                              <div>
+                                <h4 className="text-sm font-semibold text-orange-600 dark:text-orange-400 mb-2">Short-Term</h4>
+                                <ul className="space-y-1 ml-4">
+                                  {project.lastAnalysisResult.recommendations.shortTerm.map((rec: string, index: number) => (
+                                    <li key={index} className="text-sm list-disc">{rec}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            {project.lastAnalysisResult.recommendations.longTerm && (
+                              <div>
+                                <h4 className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-2">Long-Term</h4>
+                                <ul className="space-y-1 ml-4">
+                                  {project.lastAnalysisResult.recommendations.longTerm.map((rec: string, index: number) => (
+                                    <li key={index} className="text-sm list-disc">{rec}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        </DashboardCardContent>
+                      </DashboardCard>
+                    )}
+
+                    {/* Insights */}
+                    {project.lastAnalysisResult?.insights && project.lastAnalysisResult.insights.length > 0 && (
+                      <DashboardCard>
+                        <DashboardCardHeader>
+                          <DashboardCardTitle className="flex items-center gap-2">
+                            <TrendingUp className="h-5 w-5 text-green-500" />
+                            Key Insights
+                          </DashboardCardTitle>
+                        </DashboardCardHeader>
+                        <DashboardCardContent>
+                          <ul className="space-y-2">
+                            {project.lastAnalysisResult.insights.map((insight: string, index: number) => (
+                              <li key={index} className="flex items-start gap-2 text-sm">
+                                <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                                <span>{insight}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </DashboardCardContent>
+                      </DashboardCard>
+                    )}
+
+                    {/* Tech Stack */}
+                    {project.lastAnalysisResult?.techStack && (
+                      <DashboardCard>
+                        <DashboardCardHeader>
+                          <DashboardCardTitle className="flex items-center gap-2">
+                            <Layers className="h-5 w-5 text-blue-500" />
+                            Tech Stack
+                          </DashboardCardTitle>
+                        </DashboardCardHeader>
+                        <DashboardCardContent>
+                          <AnalysisRenderer data={project.lastAnalysisResult.techStack} />
+                        </DashboardCardContent>
+                      </DashboardCard>
+                    )}
+
+                    {/* Infrastructure */}
+                    {project.lastAnalysisResult?.infrastructure && (
+                      <DashboardCard>
+                        <DashboardCardHeader>
+                          <DashboardCardTitle className="flex items-center gap-2">
+                            <Cloud className="h-5 w-5 text-purple-500" />
+                            Infrastructure
+                          </DashboardCardTitle>
+                        </DashboardCardHeader>
+                        <DashboardCardContent>
+                          <AnalysisRenderer data={project.lastAnalysisResult.infrastructure} />
+                        </DashboardCardContent>
+                      </DashboardCard>
+                    )}
+
+                    {/* Code Quality */}
+                    {project.lastAnalysisResult?.codeQuality && (
+                      <DashboardCard>
+                        <DashboardCardHeader>
+                          <DashboardCardTitle className="flex items-center gap-2">
+                            <FileCode className="h-5 w-5 text-indigo-500" />
+                            Code Quality
+                          </DashboardCardTitle>
+                        </DashboardCardHeader>
+                        <DashboardCardContent>
+                          <AnalysisRenderer data={project.lastAnalysisResult.codeQuality} />
+                        </DashboardCardContent>
+                      </DashboardCard>
+                    )}
+
+                    {/* Performance */}
+                    {project.lastAnalysisResult?.performance && (
+                      <DashboardCard>
+                        <DashboardCardHeader>
+                          <DashboardCardTitle className="flex items-center gap-2">
+                            <Zap className="h-5 w-5 text-yellow-500" />
+                            Performance
+                          </DashboardCardTitle>
+                        </DashboardCardHeader>
+                        <DashboardCardContent>
+                          <AnalysisRenderer data={project.lastAnalysisResult.performance} />
+                        </DashboardCardContent>
+                      </DashboardCard>
+                    )}
+
+                    {/* Project Type & Apps */}
+                    {project.lastAnalysisResult?.apps && (
                       <DashboardCard>
                         <DashboardCardHeader>
                           <DashboardCardTitle className="flex items-center gap-2">
                             <Package className="h-5 w-5 text-blue-500" />
-                            Project Analysis
+                            Project Structure
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
-                          <AnalysisRenderer 
-                            data={project.lastAnalysisResult} 
-                            excludeKeys={['scores']}
-                          />
+                          <div className="space-y-3">
+                            {project.lastAnalysisResult.isMonorepo !== undefined && (
+                              <div className="flex items-center gap-2">
+                                <Badge variant="default">
+                                  {project.lastAnalysisResult.isMonorepo ? 'Monorepo' : 'Single App'}
+                                </Badge>
+                                {project.lastAnalysisResult.projectType && (
+                                  <Badge variant="info">{project.lastAnalysisResult.projectType}</Badge>
+                                )}
+                              </div>
+                            )}
+                            <AnalysisRenderer data={project.lastAnalysisResult.apps} />
+                          </div>
                         </DashboardCardContent>
                       </DashboardCard>
                     )}
