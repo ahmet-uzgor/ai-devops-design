@@ -6,9 +6,10 @@ interface AnalysisRendererProps {
   title?: string;
   level?: number;
   excludeKeys?: string[];
+  includeKeys?: string[];
 }
 
-export function AnalysisRenderer({ data, title, level = 0, excludeKeys = [] }: AnalysisRendererProps) {
+export function AnalysisRenderer({ data, title, level = 0, excludeKeys = [], includeKeys = [] }: AnalysisRendererProps) {
   if (data === null || data === undefined) {
     return <span className="text-muted-foreground italic">null</span>;
   }
@@ -150,9 +151,25 @@ export function AnalysisRenderer({ data, title, level = 0, excludeKeys = [] }: A
   
   if (level === 0 && isObject) {
     const entries = Object.entries(data).filter(([key, value]) => {
-      const shouldSkipKey = key === 'raw' || value === null || value === undefined || excludeKeys.includes(key);
-      return !shouldSkipKey;
+      // Skip null, undefined, or 'raw' keys
+      if (key === 'raw' || value === null || value === undefined) return false;
+      
+      // If includeKeys is specified, only include those keys
+      if (includeKeys.length > 0) {
+        return includeKeys.includes(key);
+      }
+      
+      // Otherwise, exclude keys in excludeKeys
+      return !excludeKeys.includes(key);
     });
+
+    // If includeKeys results in a single object entry, render its contents directly
+    if (includeKeys.length > 0 && entries.length === 1) {
+      const [key, value] = entries[0];
+      if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
+        return <AnalysisRenderer data={value} level={level} />;
+      }
+    }
 
     // If all entries are scores/percentages, render as a compact list
     const allScores = entries.every(([key, value]) => 

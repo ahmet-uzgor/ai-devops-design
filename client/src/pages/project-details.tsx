@@ -543,7 +543,7 @@ export default function ProjectDetails() {
               {/* Sidebar */}
               <div className="space-y-6">
                 {/* Project Scores */}
-                {project.lastAnalysisResult?.scores && (
+                {project.lastAnalysisResult && (
                   <DashboardCard>
                     <DashboardCardHeader>
                       <DashboardCardTitle className="flex items-center gap-2">
@@ -552,7 +552,10 @@ export default function ProjectDetails() {
                       </DashboardCardTitle>
                     </DashboardCardHeader>
                     <DashboardCardContent>
-                      <AnalysisRenderer data={project.lastAnalysisResult.scores} />
+                      <AnalysisRenderer 
+                        data={project.lastAnalysisResult} 
+                        includeKeys={['scores']}
+                      />
                     </DashboardCardContent>
                   </DashboardCard>
                 )}
