@@ -24,48 +24,50 @@ const resources = {
   },
 };
 
-i18n
-  .use(LanguageDetector)
-  .use(initReactI18next)
-  .init({
-    fallbackLng: 'en',
-    debug: import.meta.env.MODE === 'development',
-    
-    interpolation: {
-      escapeValue: false, // React already escapes values
-    },
+if (!i18n.isInitialized) {
+  i18n
+    .use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+      fallbackLng: 'en',
+      debug: import.meta.env.MODE === 'development',
+      
+      interpolation: {
+        escapeValue: false, // React already escapes values
+      },
 
-    detection: {
-      order: ['localStorage', 'navigator', 'htmlTag'],
-      caches: ['localStorage'],
-    },
+      detection: {
+        order: ['localStorage', 'navigator', 'htmlTag'],
+        caches: ['localStorage'],
+      },
 
-    react: {
-      useSuspense: false,
-    },
+      react: {
+        useSuspense: false,
+      },
 
-    // Load translations dynamically
-    resources: {
-      en: {
-        translation: {
-          // Basic fallback translations
-          "common.loading": "Loading...",
-          "navigation.home": "Home",
-          "navigation.about": "About",
-          "navigation.contact": "Contact", 
-          "navigation.dashboard": "Dashboard",
-          "navigation.projects": "Projects",
-          "navigation.login": "Sign In",
-          "projects.title": "Projects",
-          "dashboard.title": "Dashboard",
-          "features.title": "Features",
-          "howItWorks.title": "How It Works", 
-          "testimonials.title": "Testimonials",
-          "auth.getStarted": "Get Started"
+      // Load translations dynamically
+      resources: {
+        en: {
+          translation: {
+            // Basic fallback translations
+            "common.loading": "Loading...",
+            "navigation.home": "Home",
+            "navigation.about": "About",
+            "navigation.contact": "Contact", 
+            "navigation.dashboard": "Dashboard",
+            "navigation.projects": "Projects",
+            "navigation.login": "Sign In",
+            "projects.title": "Projects",
+            "dashboard.title": "Dashboard",
+            "features.title": "Features",
+            "howItWorks.title": "How It Works", 
+            "testimonials.title": "Testimonials",
+            "auth.getStarted": "Get Started"
+          }
         }
       }
-    }
-  });
+    });
+}
 
 export default i18n;
 
