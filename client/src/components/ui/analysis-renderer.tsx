@@ -5,9 +5,10 @@ interface AnalysisRendererProps {
   data: any;
   title?: string;
   level?: number;
+  excludeKeys?: string[];
 }
 
-export function AnalysisRenderer({ data, title, level = 0 }: AnalysisRendererProps) {
+export function AnalysisRenderer({ data, title, level = 0, excludeKeys = [] }: AnalysisRendererProps) {
   if (data === null || data === undefined) {
     return <span className="text-muted-foreground italic">null</span>;
   }
@@ -148,23 +149,43 @@ export function AnalysisRenderer({ data, title, level = 0 }: AnalysisRendererPro
   const isObject = typeof data === 'object' && !Array.isArray(data) && data !== null;
   
   if (level === 0 && isObject) {
+    const entries = Object.entries(data).filter(([key, value]) => {
+      const shouldSkipKey = key === 'raw' || value === null || value === undefined || excludeKeys.includes(key);
+      return !shouldSkipKey;
+    });
+
+    // If all entries are scores/percentages, render as a compact list
+    const allScores = entries.every(([key, value]) => 
+      typeof value === 'number' && isScoreOrPercentage(value, key)
+    );
+
+    if (allScores) {
+      return (
+        <div className="space-y-4" data-testid="analysis-renderer">
+          {entries.map(([key, value]) => (
+            <div key={key}>
+              <p className="text-sm font-medium text-muted-foreground mb-2">
+                {formatKey(key)}
+              </p>
+              {renderValue(value, key)}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
     return (
       <div className="space-y-6" data-testid="analysis-renderer">
-        {Object.entries(data).map(([key, value]) => {
-          const shouldSkipKey = key === 'raw' || value === null || value === undefined;
-          if (shouldSkipKey) return null;
-
-          return (
-            <div key={key} className="border-b pb-4 last:border-b-0">
-              <h3 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
-                {formatKey(key)}
-              </h3>
-              <div className="pl-2">
-                {renderValue(value, key)}
-              </div>
+        {entries.map(([key, value]) => (
+          <div key={key} className="border-b pb-4 last:border-b-0">
+            <h3 className="text-lg font-semibold text-foreground mb-3 flex items-center gap-2">
+              {formatKey(key)}
+            </h3>
+            <div className="pl-2">
+              {renderValue(value, key)}
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
     );
   }

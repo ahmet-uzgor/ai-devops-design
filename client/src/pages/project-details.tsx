@@ -395,7 +395,10 @@ export default function ProjectDetails() {
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
-                          <AnalysisRenderer data={project.lastAnalysisResult} />
+                          <AnalysisRenderer 
+                            data={project.lastAnalysisResult} 
+                            excludeKeys={['scores']}
+                          />
                         </DashboardCardContent>
                       </DashboardCard>
                     )}
@@ -539,6 +542,21 @@ export default function ProjectDetails() {
 
               {/* Sidebar */}
               <div className="space-y-6">
+                {/* Project Scores */}
+                {project.lastAnalysisResult?.scores && (
+                  <DashboardCard>
+                    <DashboardCardHeader>
+                      <DashboardCardTitle className="flex items-center gap-2">
+                        <Activity className="h-5 w-5 text-blue-500" />
+                        Project Scores
+                      </DashboardCardTitle>
+                    </DashboardCardHeader>
+                    <DashboardCardContent>
+                      <AnalysisRenderer data={project.lastAnalysisResult.scores} />
+                    </DashboardCardContent>
+                  </DashboardCard>
+                )}
+
                 {/* Quick Actions */}
                 <DashboardCard>
                   <DashboardCardHeader>
