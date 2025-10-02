@@ -12,6 +12,25 @@ export function AnalysisRenderer({ data, title, level = 0 }: AnalysisRendererPro
     return <span className="text-muted-foreground italic">null</span>;
   }
 
+  const isScoreOrPercentage = (value: number, key?: string): boolean => {
+    if (typeof value !== 'number') return false;
+    
+    // Check if key suggests it's a score or percentage
+    const scoreKeywords = ['score', 'quality', 'coverage', 'maintainability', 'security', 'performance', 'overall', 'infrastructure'];
+    const keyLower = key?.toLowerCase() || '';
+    const hasScoreKeyword = scoreKeywords.some(keyword => keyLower.includes(keyword));
+    
+    // Value is between 0-100 and key suggests it's a score
+    return value >= 0 && value <= 100 && hasScoreKeyword;
+  };
+
+  const getScoreColor = (score: number): string => {
+    if (score >= 80) return 'bg-green-500';
+    if (score >= 60) return 'bg-yellow-500';
+    if (score >= 40) return 'bg-orange-500';
+    return 'bg-red-500';
+  };
+
   const renderValue = (value: any, key?: string, depth: number = 0): JSX.Element => {
     if (value === null || value === undefined) {
       return <span className="text-muted-foreground italic">null</span>;
@@ -22,6 +41,25 @@ export function AnalysisRenderer({ data, title, level = 0 }: AnalysisRendererPro
         <Badge variant={value ? 'default' : 'secondary'} className="ml-2">
           {String(value)}
         </Badge>
+      );
+    }
+
+    if (typeof value === 'number' && isScoreOrPercentage(value, key)) {
+      const colorClass = getScoreColor(value);
+      return (
+        <div className="flex items-center gap-3 mt-1" data-testid={`score-indicator-${key}`}>
+          <div className="flex-1 max-w-xs">
+            <div className="relative h-2 w-full overflow-hidden rounded-full bg-secondary">
+              <div 
+                className={`h-full transition-all ${colorClass}`}
+                style={{ width: `${value}%` }}
+              />
+            </div>
+          </div>
+          <span className="text-sm font-semibold text-foreground min-w-[3rem]">
+            {value}%
+          </span>
+        </div>
       );
     }
 
