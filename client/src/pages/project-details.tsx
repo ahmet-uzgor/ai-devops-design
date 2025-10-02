@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/dashboard-badge';
 import { Skeleton, SkeletonText, SkeletonCard } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/ToastProvider';
 import DashboardSidebar from '@/components/layout/dashboard-sidebar';
+import { AnalysisRenderer } from '@/components/ui/analysis-renderer';
 import { RequireAuth } from '@/lib/auth';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -390,34 +391,11 @@ export default function ProjectDetails() {
                         <DashboardCardHeader>
                           <DashboardCardTitle className="flex items-center gap-2">
                             <Package className="h-5 w-5 text-blue-500" />
-                            Project Structure
+                            Project Analysis
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
-                          <div className="space-y-4">
-                            <div className="flex items-center gap-2 text-sm">
-                              <Badge variant="default">
-                                {project.lastAnalysisResult.isMonorepo ? 'Monorepo' : 'Single App'}
-                              </Badge>
-                              <span className="text-muted-foreground">
-                                {project.lastAnalysisResult.apps.length} app{project.lastAnalysisResult.apps.length !== 1 ? 's' : ''} detected
-                              </span>
-                            </div>
-                            
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                              {project.lastAnalysisResult.apps.map((app, index) => (
-                                <div key={index} className="p-3 border rounded-lg">
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <Code className="h-4 w-4 text-blue-500" />
-                                    <span className="font-medium">{app.name}</span>
-                                  </div>
-                                  {app.path && (
-                                    <p className="text-sm text-muted-foreground">{app.path}</p>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
+                          <AnalysisRenderer data={project.lastAnalysisResult} />
                         </DashboardCardContent>
                       </DashboardCard>
                     )}
@@ -444,7 +422,7 @@ export default function ProjectDetails() {
                                   </p>
                                 </div>
                               </div>
-                              <Badge variant="success">Active</Badge>
+                              <Badge variant="default">Active</Badge>
                             </div>
                           </div>
                         ) : (
@@ -535,7 +513,7 @@ export default function ProjectDetails() {
                                   </div>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                  <Badge variant="success">Active</Badge>
+                                  <Badge variant="default">Active</Badge>
                                   <Button variant="ghost" size="sm">
                                     <ExternalLink className="h-4 w-4" />
                                   </Button>

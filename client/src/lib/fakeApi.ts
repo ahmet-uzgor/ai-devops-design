@@ -4,7 +4,7 @@ export type Project = {
   id: string;
   name: string;
   githubRepo?: { full_name: string };
-  lastAnalysisResult?: { apps: AppInfo[]; isMonorepo: boolean; reason?: string };
+  lastAnalysisResult?: Record<string, any>;
   envs?: Record<string, { values: Record<string, string>; updatedAt: string }>;
   domains?: Record<string, string>;
   serverId?: string;
@@ -135,13 +135,135 @@ export async function analyzeProject(projectId: string): Promise<void> {
   const project = projects.find(p => p.id === projectId);
   if (project) {
     project.lastAnalysisResult = {
-      apps: [{ name: "backend", path: "/server" }, { name: "frontend", path: "/client" }],
-      isMonorepo: true,
-      reason: "Detected multiple applications in monorepo structure"
+      isMonorepo: false,
+      reason: "The project structure does not indicate multiple projects or packages managed within a single repository. The package.json and file structure suggest a single application focus.",
+      projectType: "api-service",
+      apps: [
+        {
+          name: "main-api",
+          type: "backend",
+          framework: "LoopBack",
+          language: "TypeScript",
+          buildTool: "webpack",
+          packageManager: "npm",
+          hasDockerfile: true,
+          hasTests: true,
+          dependencies: ["@loopback/core", "@loopback/rest", "amqplib"],
+          scripts: ["build", "start", "test", "docker:build"],
+          port: null
+        }
+      ],
+      techStack: {
+        languages: ["TypeScript", "JavaScript"],
+        frameworks: ["LoopBack"],
+        databases: [
+          {
+            type: "PostgreSQL",
+            detected: true,
+            configFiles: [".env"],
+            ormFramework: "Prisma"
+          }
+        ],
+        caching: ["Redis"],
+        messageQueues: ["RabbitMQ"]
+      },
+      infrastructure: {
+        containerization: {
+          hasDockerfile: true,
+          hasDockerCompose: false,
+          dockerComposeServices: []
+        },
+        cicd: {
+          hasGithubActions: true,
+          hasOtherCI: false,
+          workflows: ["build", "test", "deploy"]
+        },
+        deployment: {
+          hasKubernetes: true,
+          hasHelm: false,
+          hasServerless: false,
+          platform: "AWS"
+        },
+        monitoring: {
+          hasLogging: true,
+          hasMetrics: false,
+          tools: ["Winston"]
+        },
+        security: {
+          hasEnvFiles: false,
+          hasSecrets: false,
+          hasSecurityScanning: false,
+          vulnerabilities: ["HTTP URLs detected (should use HTTPS)"]
+        }
+      },
+      codeQuality: {
+        linting: {
+          hasESLint: true,
+          hasPrettier: true,
+          tools: ["ESLint", "Prettier"]
+        },
+        testing: {
+          unitTests: true,
+          integrationTests: true,
+          e2eTests: false,
+          testFrameworks: ["Jest"],
+          coverage: true
+        },
+        typeSystem: {
+          hasTypeScript: true,
+          strict: true,
+          coverage: "high"
+        },
+        codeStyle: {
+          hasEditorConfig: false,
+          hasGitHooks: true,
+          hasPrettier: true
+        }
+      },
+      performance: {
+        buildOptimization: ["Tree shaking", "Code splitting"],
+        caching: ["Redis caching strategies"],
+        cdn: false,
+        lazy_loading: false,
+        bundleAnalysis: {
+          tool: "webpack-bundle-analyzer",
+          recommendations: ["Consider reducing bundle size by analyzing dependencies"]
+        }
+      },
+      recommendations: {
+        immediate: [
+          "Switch all HTTP URLs to HTTPS to enhance security",
+          "Implement environment files for configuration management"
+        ],
+        shortTerm: [
+          "Integrate Docker Compose for local development",
+          "Enhance CI/CD pipelines with additional checks"
+        ],
+        longTerm: [
+          "Consider adopting Helm for Kubernetes deployments",
+          "Implement comprehensive monitoring and metrics collection"
+        ]
+      },
+      scores: {
+        overall: 85,
+        codeQuality: 90,
+        infrastructure: 75,
+        performance: 80,
+        security: 70,
+        maintainability: 85
+      },
+      insights: [
+        "The use of TypeScript with strict settings indicates a strong emphasis on type safety and code reliability.",
+        "The integration of Kubernetes suggests a forward-thinking approach to scalability and deployment."
+      ],
+      warnings: [
+        "The absence of environment files could lead to configuration management issues.",
+        "HTTP URLs pose a significant security risk and should be addressed immediately."
+      ]
     };
     activities.unshift({
       id: `act-${Date.now()}`,
-      text: `Analyzed ${project.name} - detected 2 applications`,
+      text: `Analyzed ${project.name} - detected comprehensive infrastructure analysis`,
       at: new Date().toISOString()
     });
   }
@@ -150,15 +272,16 @@ export async function analyzeProject(projectId: string): Promise<void> {
 export async function addSomeEnvs(projectId: string): Promise<void> {
   await delay(450);
   const project = projects.find(p => p.id === projectId);
-  if (project && project.lastAnalysisResult?.apps) {
+  if (project && project.lastAnalysisResult?.apps && Array.isArray(project.lastAnalysisResult.apps)) {
     project.envs = {};
     const timestamp = new Date().toISOString();
     
     for (const app of project.lastAnalysisResult.apps) {
-      project.envs[app.name] = {
+      const appName = app.name || 'app';
+      project.envs[appName] = {
         values: {
           NODE_ENV: "production",
-          PORT: app.name === "backend" ? "5000" : "3000",
+          PORT: appName === "backend" ? "5000" : "3000",
           DATABASE_URL: "postgres://prod-db.omniinfra.co/app"
         },
         updatedAt: timestamp
@@ -176,13 +299,14 @@ export async function addSomeEnvs(projectId: string): Promise<void> {
 export async function configureDomainAndServer(projectId: string): Promise<void> {
   await delay(550);
   const project = projects.find(p => p.id === projectId);
-  if (project && project.lastAnalysisResult?.apps) {
+  if (project && project.lastAnalysisResult?.apps && Array.isArray(project.lastAnalysisResult.apps)) {
     project.serverId = `srv-${project.name.toLowerCase().replace(/\s+/g, '-')}-1`;
     project.domains = {};
     
     for (const app of project.lastAnalysisResult.apps) {
-      const subdomain = app.name === "frontend" ? "app" : app.name;
-      project.domains[app.name] = `${subdomain}.omniinfra.co`;
+      const appName = app.name || 'app';
+      const subdomain = appName === "frontend" ? "app" : appName;
+      project.domains[appName] = `${subdomain}.omniinfra.co`;
     }
     
     activities.unshift({
