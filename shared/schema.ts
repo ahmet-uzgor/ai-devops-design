@@ -14,11 +14,7 @@ export const projects = pgTable("projects", {
   name: text("name").notNull(),
   description: text("description"),
   githubRepo: jsonb("github_repo").$type<{ full_name: string; url?: string }>(),
-  lastAnalysisResult: jsonb("last_analysis_result").$type<{ 
-    apps: Array<{ name: string; path?: string }>; 
-    isMonorepo: boolean; 
-    reason?: string; 
-  }>(),
+  lastAnalysisResult: jsonb("last_analysis_result").$type<Record<string, any>>(),
   envs: jsonb("envs").$type<Record<string, { values: Record<string, string>; updatedAt: string }>>(),
   domains: jsonb("domains").$type<Record<string, string>>(),
   serverId: text("server_id"),

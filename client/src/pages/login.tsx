@@ -3,14 +3,27 @@ import Footer from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { FloatingElements } from "@/components/ui/floating-elements";
 import { Github, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useLocation } from "wouter";
 import { useState, useEffect } from "react";
@@ -28,7 +41,7 @@ export default function Login() {
   const { login, isAuthenticated, isLoading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [, setLocation] = useLocation();
-  
+
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -40,8 +53,8 @@ export default function Login() {
   useEffect(() => {
     if (isAuthenticated) {
       const urlParams = new URLSearchParams(window.location.search);
-      const redirect = urlParams.get('redirect');
-      setLocation(redirect === 'dashboard' ? '/dashboard' : '/');
+      const redirect = urlParams.get("redirect");
+      redirect === "dashboard" && setLocation("/dashboard");
     }
   }, [isAuthenticated, setLocation]);
 
@@ -56,7 +69,7 @@ export default function Login() {
       toast({
         title: "Login failed",
         description: "Please check your credentials and try again.",
-        variant: "destructive"
+        variant: "destructive",
       });
     }
   };
@@ -84,38 +97,52 @@ export default function Login() {
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-blue-50 to-purple-50 pt-32 pb-20 overflow-hidden relative">
           <FloatingElements />
-          
+
           {/* Left Side Visual Elements */}
           <div className="absolute left-8 top-1/2 transform -translate-y-1/2 hidden lg:block">
             <div className="space-y-8">
               <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 w-64">
                 <div className="flex items-center justify-between mb-4">
-                  <div className="text-sm font-medium text-gray-700">Active Deployments</div>
+                  <div className="text-sm font-medium text-gray-700">
+                    Active Deployments
+                  </div>
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Production</span>
-                    <span className="text-sm font-semibold text-green-600">Running</span>
+                    <span className="text-sm font-semibold text-green-600">
+                      Running
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Staging</span>
-                    <span className="text-sm font-semibold text-blue-600">Deploying</span>
+                    <span className="text-sm font-semibold text-blue-600">
+                      Deploying
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">Development</span>
-                    <span className="text-sm font-semibold text-gray-500">Idle</span>
+                    <span className="text-sm font-semibold text-gray-500">
+                      Idle
+                    </span>
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 w-64">
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-3 h-3 bg-orange-400 rounded-full"></div>
-                  <div className="text-sm font-medium text-gray-700">Cost Optimization</div>
+                  <div className="text-sm font-medium text-gray-700">
+                    Cost Optimization
+                  </div>
                 </div>
-                <div className="text-2xl font-bold text-gray-900 mb-2">-47% Costs</div>
-                <div className="text-sm text-gray-600">AI-powered resource optimization saves money</div>
+                <div className="text-2xl font-bold text-gray-900 mb-2">
+                  -47% Costs
+                </div>
+                <div className="text-sm text-gray-600">
+                  AI-powered resource optimization saves money
+                </div>
               </div>
             </div>
           </div>
@@ -126,31 +153,43 @@ export default function Login() {
               <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 w-64">
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
-                  <div className="text-sm font-medium text-gray-700">Team Activity</div>
+                  <div className="text-sm font-medium text-gray-700">
+                    Team Activity
+                  </div>
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
                       <span className="text-white text-xs font-bold">AM</span>
                     </div>
-                    <div className="text-sm text-gray-600">Alex deployed to prod</div>
+                    <div className="text-sm text-gray-600">
+                      Alex deployed to prod
+                    </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full flex items-center justify-center">
                       <span className="text-white text-xs font-bold">SR</span>
                     </div>
-                    <div className="text-sm text-gray-600">Sarah scaled infrastructure</div>
+                    <div className="text-sm text-gray-600">
+                      Sarah scaled infrastructure
+                    </div>
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/50 w-64">
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
-                  <div className="text-sm font-medium text-gray-700">Performance</div>
+                  <div className="text-sm font-medium text-gray-700">
+                    Performance
+                  </div>
                 </div>
-                <div className="text-2xl font-bold text-gray-900 mb-2">2.3s Response</div>
-                <div className="text-sm text-gray-600">Average API response time optimized</div>
+                <div className="text-2xl font-bold text-gray-900 mb-2">
+                  2.3s Response
+                </div>
+                <div className="text-sm text-gray-600">
+                  Average API response time optimized
+                </div>
               </div>
             </div>
           </div>
@@ -170,7 +209,7 @@ export default function Login() {
                   OmniInfra
                 </span>
               </h1>
-              
+
               <p className="text-lg text-gray-600 leading-relaxed">
                 Continue managing your AI-powered DevOps infrastructure
               </p>
@@ -178,7 +217,9 @@ export default function Login() {
 
             <Card className="shadow-2xl border-gray-100">
               <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-bold text-gray-900">Sign In</CardTitle>
+                <CardTitle className="text-2xl font-bold text-gray-900">
+                  Sign In
+                </CardTitle>
                 <CardDescription className="text-gray-600">
                   Access your OmniInfra dashboard
                 </CardDescription>
@@ -195,7 +236,7 @@ export default function Login() {
                     <Github className="mr-3 h-5 w-5" />
                     Continue with GitHub
                   </Button>
-                  
+
                   <Button
                     onClick={handleGoogleLogin}
                     variant="outline"
@@ -212,13 +253,18 @@ export default function Login() {
                     <Separator className="w-full" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-white px-2 text-gray-500">Or continue with email</span>
+                    <span className="bg-white px-2 text-gray-500">
+                      Or continue with email
+                    </span>
                   </div>
                 </div>
 
                 {/* Email Login Form */}
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-6">
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-6 mt-6"
+                  >
                     <FormField
                       control={form.control}
                       name="email"
@@ -228,10 +274,10 @@ export default function Login() {
                           <FormControl>
                             <div className="relative">
                               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                              <Input 
-                                type="email" 
-                                placeholder="john@company.com" 
-                                {...field} 
+                              <Input
+                                type="email"
+                                placeholder="john@company.com"
+                                {...field}
                                 data-testid="input-email"
                                 className="h-12 pl-10"
                               />
@@ -249,17 +295,20 @@ export default function Login() {
                         <FormItem>
                           <div className="flex items-center justify-between">
                             <FormLabel>Password</FormLabel>
-                            <Link href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700">
+                            <Link
+                              href="/forgot-password"
+                              className="text-sm text-blue-600 hover:text-blue-700"
+                            >
                               Forgot password?
                             </Link>
                           </div>
                           <FormControl>
                             <div className="relative">
                               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                              <Input 
+                              <Input
                                 type={showPassword ? "text" : "password"}
-                                placeholder="Enter your password" 
-                                {...field} 
+                                placeholder="Enter your password"
+                                {...field}
                                 data-testid="input-password"
                                 className="h-12 pl-10 pr-10"
                               />
@@ -284,8 +333,8 @@ export default function Login() {
                       )}
                     />
 
-                    <Button 
-                      type="submit" 
+                    <Button
+                      type="submit"
                       disabled={isLoading}
                       className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white h-12 rounded-xl hover:shadow-lg transition-all duration-300 font-semibold border-0"
                       data-testid="button-login"
@@ -298,7 +347,10 @@ export default function Login() {
                 <div className="mt-6 text-center">
                   <p className="text-sm text-gray-600">
                     Don't have an account?{" "}
-                    <Link href="/signup" className="text-blue-600 hover:text-blue-700 font-semibold">
+                    <Link
+                      href="/signup"
+                      className="text-blue-600 hover:text-blue-700 font-semibold"
+                    >
                       Create one
                     </Link>
                   </p>
@@ -308,7 +360,9 @@ export default function Login() {
 
             {/* Features Preview */}
             <div className="mt-12 text-center space-y-4">
-              <p className="text-sm text-gray-500">Trusted by teams worldwide</p>
+              <p className="text-sm text-gray-500">
+                Trusted by teams worldwide
+              </p>
               <div className="flex justify-center space-x-8 text-xs text-gray-400">
                 <div>90% faster deployments</div>
                 <div>75% fewer incidents</div>
