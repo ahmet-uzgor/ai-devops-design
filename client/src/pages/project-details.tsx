@@ -537,7 +537,104 @@ export default function ProjectDetails() {
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
-                          <AnalysisRenderer data={project.lastAnalysisResult.performance} />
+                          <div className="space-y-6">
+                            {/* Build Optimizations */}
+                            {project.lastAnalysisResult.performance.buildOptimization && 
+                             project.lastAnalysisResult.performance.buildOptimization.length > 0 && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                                  <Settings className="h-4 w-4 text-blue-500" />
+                                  Build Optimizations
+                                </h4>
+                                <div className="flex flex-wrap gap-2">
+                                  {project.lastAnalysisResult.performance.buildOptimization.map((opt: string, index: number) => (
+                                    <Badge key={index} variant="info" data-testid={`build-opt-${index}`}>
+                                      {opt}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Caching Strategies */}
+                            {project.lastAnalysisResult.performance.caching && 
+                             project.lastAnalysisResult.performance.caching.length > 0 && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                                  <Database className="h-4 w-4 text-purple-500" />
+                                  Caching Strategies
+                                </h4>
+                                <ul className="space-y-1 ml-4">
+                                  {project.lastAnalysisResult.performance.caching.map((cache: string, index: number) => (
+                                    <li key={index} className="text-sm list-disc" data-testid={`caching-${index}`}>
+                                      {cache}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {/* Features Grid */}
+                            <div className="grid grid-cols-2 gap-4">
+                              {/* CDN Status */}
+                              <div className="border rounded-lg p-3">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <Globe className="h-4 w-4 text-indigo-500" />
+                                  <span className="text-sm font-medium">CDN</span>
+                                </div>
+                                <Badge 
+                                  variant={project.lastAnalysisResult.performance.cdn ? "success" : "warning"}
+                                  data-testid="cdn-status"
+                                >
+                                  {project.lastAnalysisResult.performance.cdn ? "Enabled" : "Not Enabled"}
+                                </Badge>
+                              </div>
+
+                              {/* Lazy Loading Status */}
+                              <div className="border rounded-lg p-3">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <Eye className="h-4 w-4 text-green-500" />
+                                  <span className="text-sm font-medium">Lazy Loading</span>
+                                </div>
+                                <Badge 
+                                  variant={project.lastAnalysisResult.performance.lazy_loading ? "success" : "warning"}
+                                  data-testid="lazy-loading-status"
+                                >
+                                  {project.lastAnalysisResult.performance.lazy_loading ? "Enabled" : "Not Enabled"}
+                                </Badge>
+                              </div>
+                            </div>
+
+                            {/* Bundle Analysis */}
+                            {project.lastAnalysisResult.performance.bundleAnalysis && (
+                              <div className="border-l-4 border-orange-500 bg-orange-50 dark:bg-orange-950 p-4 rounded">
+                                <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                                  <Package className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+                                  Bundle Analysis
+                                </h4>
+                                {project.lastAnalysisResult.performance.bundleAnalysis.tool && (
+                                  <p className="text-sm text-muted-foreground mb-2">
+                                    Tool: <span className="font-mono font-medium">{project.lastAnalysisResult.performance.bundleAnalysis.tool}</span>
+                                  </p>
+                                )}
+                                {project.lastAnalysisResult.performance.bundleAnalysis.recommendations && 
+                                 project.lastAnalysisResult.performance.bundleAnalysis.recommendations.length > 0 && (
+                                  <div>
+                                    <p className="text-xs font-medium text-orange-700 dark:text-orange-300 mb-1">
+                                      Recommendations:
+                                    </p>
+                                    <ul className="space-y-1 ml-4">
+                                      {project.lastAnalysisResult.performance.bundleAnalysis.recommendations.map((rec: string, index: number) => (
+                                        <li key={index} className="text-sm list-disc" data-testid={`bundle-rec-${index}`}>
+                                          {rec}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
                         </DashboardCardContent>
                       </DashboardCard>
                     )}
