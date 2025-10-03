@@ -709,7 +709,7 @@ export default function ProjectDetails() {
               {/* Sidebar */}
               <div className="space-y-6">
                 {/* Project Scores */}
-                {project.lastAnalysisResult && (
+                {project.lastAnalysisResult?.scores && (
                   <DashboardCard>
                     <DashboardCardHeader>
                       <DashboardCardTitle className="flex items-center gap-2">
@@ -718,10 +718,47 @@ export default function ProjectDetails() {
                       </DashboardCardTitle>
                     </DashboardCardHeader>
                     <DashboardCardContent>
-                      <AnalysisRenderer 
-                        data={project.lastAnalysisResult} 
-                        includeKeys={['scores']}
-                      />
+                      <div className="space-y-4" data-testid="scores-container">
+                        {Object.entries(project.lastAnalysisResult.scores).map(([key, value]) => {
+                          const score = value as number;
+                          let barColor = 'bg-red-500';
+                          let textColor = 'text-red-600';
+                          
+                          if (score >= 80) {
+                            barColor = 'bg-green-500';
+                            textColor = 'text-green-600';
+                          } else if (score >= 60) {
+                            barColor = 'bg-yellow-500';
+                            textColor = 'text-yellow-600';
+                          } else if (score >= 40) {
+                            barColor = 'bg-orange-500';
+                            textColor = 'text-orange-600';
+                          }
+                          
+                          const formattedLabel = key
+                            .replace(/([A-Z])/g, ' $1')
+                            .replace(/^./, str => str.toUpperCase())
+                            .trim();
+                          
+                          return (
+                            <div key={key} data-testid={`score-${key}`}>
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="text-sm font-medium">{formattedLabel}</span>
+                                <span className={`text-sm font-bold ${textColor}`} data-testid={`score-value-${key}`}>
+                                  {score}
+                                </span>
+                              </div>
+                              <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                                <div 
+                                  className={`h-full ${barColor} transition-all duration-300`}
+                                  style={{ width: `${score}%` }}
+                                  data-testid={`score-bar-${key}`}
+                                />
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </DashboardCardContent>
                   </DashboardCard>
                 )}
