@@ -496,7 +496,114 @@ export default function ProjectDetails() {
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
-                          <AnalysisRenderer data={project.lastAnalysisResult.techStack} />
+                          <div className="space-y-6">
+                            {/* Languages */}
+                            {project.lastAnalysisResult.techStack.languages && 
+                             project.lastAnalysisResult.techStack.languages.length > 0 && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                                  <Code className="h-4 w-4 text-blue-500" />
+                                  Languages
+                                </h4>
+                                <div className="flex flex-wrap gap-2">
+                                  {project.lastAnalysisResult.techStack.languages.map((lang: string, index: number) => (
+                                    <Badge key={index} variant="info" data-testid={`language-${index}`}>
+                                      {lang}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Frameworks */}
+                            {project.lastAnalysisResult.techStack.frameworks && 
+                             project.lastAnalysisResult.techStack.frameworks.length > 0 && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                                  <Package className="h-4 w-4 text-purple-500" />
+                                  Frameworks
+                                </h4>
+                                <div className="flex flex-wrap gap-2">
+                                  {project.lastAnalysisResult.techStack.frameworks.map((framework: string, index: number) => (
+                                    <Badge key={index} variant="success" data-testid={`framework-${index}`}>
+                                      {framework}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Databases */}
+                            {project.lastAnalysisResult.techStack.databases && 
+                             project.lastAnalysisResult.techStack.databases.length > 0 && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                                  <Database className="h-4 w-4 text-green-500" />
+                                  Databases
+                                </h4>
+                                <div className="space-y-3">
+                                  {project.lastAnalysisResult.techStack.databases.map((db: any, index: number) => (
+                                    <div key={index} className="border rounded-lg p-3" data-testid={`database-${index}`}>
+                                      <div className="flex items-center justify-between mb-2">
+                                        <span className="font-semibold text-green-600 dark:text-green-400">
+                                          {db.type}
+                                        </span>
+                                        <Badge variant={db.detected ? "success" : "default"}>
+                                          {db.detected ? "Detected" : "Not Detected"}
+                                        </Badge>
+                                      </div>
+                                      {db.ormFramework && (
+                                        <p className="text-xs text-muted-foreground mb-1">
+                                          ORM: <span className="font-medium">{db.ormFramework}</span>
+                                        </p>
+                                      )}
+                                      {db.configFiles && db.configFiles.length > 0 && (
+                                        <p className="text-xs text-muted-foreground">
+                                          Config: <span className="font-mono">{db.configFiles.join(', ')}</span>
+                                        </p>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Caching */}
+                            {project.lastAnalysisResult.techStack.caching && 
+                             project.lastAnalysisResult.techStack.caching.length > 0 && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                                  <Zap className="h-4 w-4 text-orange-500" />
+                                  Caching
+                                </h4>
+                                <div className="flex flex-wrap gap-2">
+                                  {project.lastAnalysisResult.techStack.caching.map((cache: string, index: number) => (
+                                    <Badge key={index} variant="warning" data-testid={`caching-${index}`}>
+                                      {cache}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Message Queues */}
+                            {project.lastAnalysisResult.techStack.messageQueues && 
+                             project.lastAnalysisResult.techStack.messageQueues.length > 0 && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
+                                  <Workflow className="h-4 w-4 text-indigo-500" />
+                                  Message Queues
+                                </h4>
+                                <div className="flex flex-wrap gap-2">
+                                  {project.lastAnalysisResult.techStack.messageQueues.map((queue: string, index: number) => (
+                                    <Badge key={index} variant="info" data-testid={`message-queue-${index}`}>
+                                      {queue}
+                                    </Badge>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
                         </DashboardCardContent>
                       </DashboardCard>
                     )}
