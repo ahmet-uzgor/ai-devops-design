@@ -145,12 +145,16 @@ export default function ChatBot({ projectId }: ChatBotProps) {
       return response.json();
     },
     onSuccess: (data) => {
-      setMessages(prev => [...prev, {
-        id: data.id,
-        role: data.role,
-        message: data.message,
-        timestamp: data.timestamp,
-      }]);
+      // Handle structured response
+      const assistantMessage: Message = {
+        id: data.id || `assistant-${Date.now()}`,
+        role: "assistant",
+        message: data.response || data.message || "",
+        timestamp: data.timestamp || new Date().toISOString(),
+        suggestions: data.suggestions || [],
+        actionItems: data.actionItems || [],
+      };
+      setMessages(prev => [...prev, assistantMessage]);
     },
   });
 
@@ -290,19 +294,46 @@ export default function ChatBot({ projectId }: ChatBotProps) {
                       </div>
                     )}
                     <div
-                      className={`flex flex-col max-w-[75%] ${
-                        msg.role === "user" ? "items-end" : "items-start"
+                      className={`flex flex-col ${
+                        msg.role === "user" ? "items-end max-w-[75%]" : "items-start max-w-[85%]"
                       }`}
                     >
                       <div
-                        className={`rounded-2xl px-4 py-2 ${
+                        className={`rounded-2xl px-4 py-3 ${
                           msg.role === "user"
                             ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
                             : "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                         }`}
                       >
-                        <p className="text-sm whitespace-pre-wrap">{msg.message}</p>
+                        {msg.role === "user" ? (
+                          <p className="text-sm whitespace-pre-wrap">{msg.message}</p>
+                        ) : (
+                          <MarkdownText text={msg.message} />
+                        )}
                       </div>
+                      
+                      {/* Suggestions */}
+                      {msg.role === "assistant" && msg.suggestions && msg.suggestions.length > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {msg.suggestions.map((suggestion, idx) => (
+                            <Button
+                              key={idx}
+                              variant="outline"
+                              size="sm"
+                              onClick={() => {
+                                setInputMessage(suggestion);
+                                inputRef.current?.focus();
+                              }}
+                              className="text-xs bg-white dark:bg-gray-800 hover:bg-blue-50 dark:hover:bg-gray-700 border-blue-200 dark:border-gray-600"
+                              data-testid={`suggestion-${idx}`}
+                            >
+                              <Sparkles className="h-3 w-3 mr-1" />
+                              {suggestion}
+                            </Button>
+                          ))}
+                        </div>
+                      )}
+
                       <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                         {formatTime(msg.timestamp)}
                       </span>
