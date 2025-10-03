@@ -863,7 +863,188 @@ export default function ProjectDetails() {
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
-                          <AnalysisRenderer data={project.lastAnalysisResult.codeQuality} />
+                          <div className="space-y-6">
+                            {/* Linting */}
+                            {project.lastAnalysisResult.codeQuality.linting && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                                  <CheckCircle className="h-4 w-4 text-blue-500" />
+                                  Linting
+                                </h4>
+                                <div className="grid grid-cols-2 gap-3 mb-2">
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">ESLint</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.codeQuality.linting.hasESLint ? "success" : "warning"}
+                                      data-testid="eslint-status"
+                                    >
+                                      {project.lastAnalysisResult.codeQuality.linting.hasESLint ? "Configured" : "Not Set"}
+                                    </Badge>
+                                  </div>
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">Prettier</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.codeQuality.linting.hasPrettier ? "success" : "warning"}
+                                      data-testid="prettier-status"
+                                    >
+                                      {project.lastAnalysisResult.codeQuality.linting.hasPrettier ? "Configured" : "Not Set"}
+                                    </Badge>
+                                  </div>
+                                </div>
+                                {project.lastAnalysisResult.codeQuality.linting.tools && 
+                                 project.lastAnalysisResult.codeQuality.linting.tools.length > 0 && (
+                                  <div>
+                                    <p className="text-xs text-muted-foreground mb-1">Tools:</p>
+                                    <div className="flex flex-wrap gap-1">
+                                      {project.lastAnalysisResult.codeQuality.linting.tools.map((tool: string, index: number) => (
+                                        <Badge key={index} variant="info" className="text-xs" data-testid={`linting-tool-${index}`}>
+                                          {tool}
+                                        </Badge>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {/* Testing */}
+                            {project.lastAnalysisResult.codeQuality.testing && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                                  <Activity className="h-4 w-4 text-green-500" />
+                                  Testing
+                                </h4>
+                                <div className="grid grid-cols-3 gap-3 mb-2">
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">Unit Tests</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.codeQuality.testing.unitTests ? "success" : "warning"}
+                                      data-testid="unit-tests-status"
+                                    >
+                                      {project.lastAnalysisResult.codeQuality.testing.unitTests ? "Yes" : "No"}
+                                    </Badge>
+                                  </div>
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">Integration</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.codeQuality.testing.integrationTests ? "success" : "warning"}
+                                      data-testid="integration-tests-status"
+                                    >
+                                      {project.lastAnalysisResult.codeQuality.testing.integrationTests ? "Yes" : "No"}
+                                    </Badge>
+                                  </div>
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">E2E Tests</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.codeQuality.testing.e2eTests ? "success" : "warning"}
+                                      data-testid="e2e-tests-status"
+                                    >
+                                      {project.lastAnalysisResult.codeQuality.testing.e2eTests ? "Yes" : "No"}
+                                    </Badge>
+                                  </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-3 mb-2">
+                                  <div className="border rounded-lg p-3 bg-green-50 dark:bg-green-950">
+                                    <p className="text-xs text-muted-foreground mb-1">Coverage</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.codeQuality.testing.coverage ? "success" : "warning"}
+                                      data-testid="test-coverage-status"
+                                    >
+                                      {project.lastAnalysisResult.codeQuality.testing.coverage ? "Enabled" : "Not Set"}
+                                    </Badge>
+                                  </div>
+                                  {project.lastAnalysisResult.codeQuality.testing.testFrameworks && 
+                                   project.lastAnalysisResult.codeQuality.testing.testFrameworks.length > 0 && (
+                                    <div className="border rounded-lg p-3">
+                                      <p className="text-xs text-muted-foreground mb-1">Frameworks</p>
+                                      <div className="flex flex-wrap gap-1">
+                                        {project.lastAnalysisResult.codeQuality.testing.testFrameworks.map((framework: string, index: number) => (
+                                          <Badge key={index} variant="success" className="text-xs" data-testid={`test-framework-${index}`}>
+                                            {framework}
+                                          </Badge>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Type System */}
+                            {project.lastAnalysisResult.codeQuality.typeSystem && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                                  <Code className="h-4 w-4 text-purple-500" />
+                                  Type System
+                                </h4>
+                                <div className="grid grid-cols-3 gap-3">
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">TypeScript</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.codeQuality.typeSystem.hasTypeScript ? "success" : "default"}
+                                      data-testid="typescript-status"
+                                    >
+                                      {project.lastAnalysisResult.codeQuality.typeSystem.hasTypeScript ? "Enabled" : "Not Set"}
+                                    </Badge>
+                                  </div>
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">Strict Mode</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.codeQuality.typeSystem.strict ? "success" : "warning"}
+                                      data-testid="strict-mode-status"
+                                    >
+                                      {project.lastAnalysisResult.codeQuality.typeSystem.strict ? "Yes" : "No"}
+                                    </Badge>
+                                  </div>
+                                  <div className="border rounded-lg p-3 bg-purple-50 dark:bg-purple-950">
+                                    <p className="text-xs text-muted-foreground mb-1">Coverage</p>
+                                    <p className="font-semibold text-purple-700 dark:text-purple-300" data-testid="type-coverage">
+                                      {project.lastAnalysisResult.codeQuality.typeSystem.coverage}
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Code Style */}
+                            {project.lastAnalysisResult.codeQuality.codeStyle && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                                  <Settings className="h-4 w-4 text-orange-500" />
+                                  Code Style
+                                </h4>
+                                <div className="grid grid-cols-3 gap-3">
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">EditorConfig</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.codeQuality.codeStyle.hasEditorConfig ? "success" : "default"}
+                                      data-testid="editorconfig-status"
+                                    >
+                                      {project.lastAnalysisResult.codeQuality.codeStyle.hasEditorConfig ? "Yes" : "No"}
+                                    </Badge>
+                                  </div>
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">Git Hooks</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.codeQuality.codeStyle.hasGitHooks ? "success" : "warning"}
+                                      data-testid="git-hooks-status"
+                                    >
+                                      {project.lastAnalysisResult.codeQuality.codeStyle.hasGitHooks ? "Yes" : "No"}
+                                    </Badge>
+                                  </div>
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">Prettier</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.codeQuality.codeStyle.hasPrettier ? "success" : "warning"}
+                                      data-testid="code-style-prettier-status"
+                                    >
+                                      {project.lastAnalysisResult.codeQuality.codeStyle.hasPrettier ? "Yes" : "No"}
+                                    </Badge>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
                         </DashboardCardContent>
                       </DashboardCard>
                     )}
