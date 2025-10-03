@@ -1051,7 +1051,7 @@ export default function ProjectDetails() {
 
                     {/* Performance */}
                     {project.lastAnalysisResult?.performance && (
-                      <DashboardCard>
+                      <DashboardCard collapsible={true} defaultOpen={false}>
                         <DashboardCardHeader>
                           <DashboardCardTitle className="flex items-center gap-2">
                             <Zap className="h-5 w-5 text-yellow-500" />
@@ -1163,7 +1163,7 @@ export default function ProjectDetails() {
 
                     {/* Project Type & Apps */}
                     {project.lastAnalysisResult?.apps && (
-                      <DashboardCard>
+                      <DashboardCard collapsible={true} defaultOpen={false}>
                         <DashboardCardHeader>
                           <DashboardCardTitle className="flex items-center gap-2">
                             <Package className="h-5 w-5 text-blue-500" />
