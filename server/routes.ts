@@ -136,26 +136,114 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Message is required" });
       }
 
-      // Simulate AI response based on message content
-      const simulateAIResponse = (userMessage: string): string => {
+      // Simulate AI response based on message content with structured format
+      const simulateAIResponse = (userMessage: string) => {
         const lowerMsg = userMessage.toLowerCase();
         
         if (lowerMsg.includes("deploy") || lowerMsg.includes("deployment")) {
-          return "I can help you deploy your project! First, make sure your CI/CD pipeline is configured. You can check the setup progress in your project dashboard. Would you like me to guide you through the deployment process?";
+          return {
+            response: `**Deployment Guide**\n\nI can help you deploy your project! Here's what you need to know:\n\n1. **Pre-deployment Checklist:**\n   - Ensure your CI/CD pipeline is configured\n   - Verify all environment variables are set\n   - Check that your application builds successfully\n\n2. **Deployment Steps:**\n   - Review your setup progress in the project dashboard\n   - Run the deployment from the Deployments tab\n   - Monitor the deployment logs for any issues\n\n3. **Post-deployment:**\n   - Verify your application is running correctly\n   - Check the domain configuration\n   - Monitor performance metrics`,
+            suggestions: [
+              "How do I configure CI/CD pipeline?",
+              "What environment variables do I need?",
+              "How to monitor my deployment?"
+            ],
+            actionItems: [
+              "**Pre-deployment Checklist:**",
+              "Ensure your CI/CD pipeline is configured",
+              "Verify all environment variables are set"
+            ]
+          };
         } else if (lowerMsg.includes("error") || lowerMsg.includes("issue") || lowerMsg.includes("problem")) {
-          return "I'll help you troubleshoot the issue. Can you provide more details about the error you're experiencing? You can also check the 'Warnings' section in your project analysis for potential issues.";
+          return {
+            response: `**Troubleshooting Guide**\n\nI'll help you resolve the issue. Here's a systematic approach:\n\n1. **Identify the Problem:**\n   - Check the Warnings section in your project analysis\n   - Review recent deployment logs\n   - Look for error messages in the console\n\n2. **Common Issues:**\n   - **Build Failures:** Check dependencies and build configuration\n   - **Runtime Errors:** Verify environment variables and API endpoints\n   - **Performance Issues:** Review the Performance section for optimization tips\n\n3. **Next Steps:**\n   - Share specific error messages for targeted help\n   - Check project documentation for known issues\n   - Review recent changes that might have caused the problem`,
+            suggestions: [
+              "How to check deployment logs?",
+              "What are common build errors?",
+              "How to debug runtime issues?"
+            ],
+            actionItems: [
+              "Check the Warnings section in your project analysis",
+              "Review recent deployment logs",
+              "Look for error messages in the console"
+            ]
+          };
         } else if (lowerMsg.includes("environment") || lowerMsg.includes("env")) {
-          return "To configure environment variables, go to the 'Environment Variables' tab in your project. You can add, edit, or remove variables for each application in your project. Remember to keep sensitive data secure!";
+          return {
+            response: `**Environment Variables Setup**\n\nHere's how to configure environment variables properly:\n\n1. **Access Environment Variables:**\n   - Navigate to the 'Environment Variables' tab in your project\n   - Click 'Add Variable' to create a new one\n\n2. **Best Practices:**\n   - **Never commit secrets** to version control\n   - Use different values for development/staging/production\n   - Group related variables with prefixes (e.g., DB_HOST, DB_PORT)\n   - Document required variables in your README\n\n3. **Security Tips:**\n   - Rotate secrets regularly\n   - Use encryption for sensitive data\n   - Limit access to production variables`,
+            suggestions: [
+              "How to manage secrets securely?",
+              "What variables are required for deployment?",
+              "How to use different env configs per environment?"
+            ],
+            actionItems: [
+              "Navigate to the 'Environment Variables' tab",
+              "Never commit secrets to version control",
+              "Use different values for each environment"
+            ]
+          };
         } else if (lowerMsg.includes("performance") || lowerMsg.includes("optimize")) {
-          return "Based on your project analysis, I see some performance optimization opportunities. Check the 'Performance' section for recommendations on build optimization, caching strategies, and CDN usage.";
+          return {
+            response: `**Performance Optimization Guide**\n\nBased on your project analysis, here are optimization opportunities:\n\n1. **Build Optimization:**\n   - Enable code minification and tree-shaking\n   - Implement lazy loading for routes and components\n   - Use production builds for deployment\n\n2. **Caching Strategies:**\n   - Configure CDN caching for static assets\n   - Implement browser caching headers\n   - Use service workers for offline support\n\n3. **Database & API:**\n   - Add database indexing for frequent queries\n   - Implement API response caching\n   - Use pagination for large datasets\n\n4. **Monitoring:**\n   - Set up performance metrics tracking\n   - Monitor Core Web Vitals\n   - Track error rates and response times`,
+            suggestions: [
+              "How to implement CDN caching?",
+              "What are Core Web Vitals?",
+              "How to optimize database queries?"
+            ],
+            actionItems: [
+              "Enable code minification and tree-shaking",
+              "Configure CDN caching for static assets",
+              "Set up performance metrics tracking"
+            ]
+          };
         } else if (lowerMsg.includes("security")) {
-          return "Security is important! Your project analysis shows some security considerations. Make sure to use HTTPS, implement proper authentication, and keep your dependencies up to date. Check the 'Infrastructure' section for security details.";
+          return {
+            response: `**Security Best Practices**\n\nLet's ensure your infrastructure is secure:\n\n1. **SSL/TLS Configuration:**\n   - **Switch to HTTPS:** All traffic should use secure connections\n   - Obtain SSL certificates (use Let's Encrypt for free certificates)\n   - Configure automatic certificate renewal\n\n2. **Authentication & Authorization:**\n   - Implement strong authentication mechanisms\n   - Use OAuth 2.0 or JWT for API security\n   - Enable multi-factor authentication (MFA)\n\n3. **Dependency Security:**\n   - Regularly update all dependencies\n   - Use automated security scanning (e.g., Snyk, Dependabot)\n   - Review and patch vulnerabilities promptly\n\n4. **Infrastructure Security:**\n   - Use secrets management tools (AWS Secrets Manager, HashiCorp Vault)\n   - Implement proper firewall rules\n   - Enable audit logging for all critical operations`,
+            suggestions: [
+              "How to set up HTTPS?",
+              "What is OAuth 2.0?",
+              "How to scan for security vulnerabilities?"
+            ],
+            actionItems: [
+              "Switch to HTTPS for all traffic",
+              "Implement strong authentication mechanisms",
+              "Regularly update all dependencies"
+            ]
+          };
         } else if (lowerMsg.includes("ci/cd") || lowerMsg.includes("pipeline")) {
-          return "Your CI/CD pipeline helps automate deployments. I can set up GitHub Actions for you with build, test, and deploy workflows. Would you like me to create a PR with the pipeline configuration?";
+          return {
+            response: `**CI/CD Pipeline Setup**\n\nLet's set up automated deployments for your project:\n\n1. **Pipeline Basics:**\n   - **Continuous Integration:** Automated building and testing on every commit\n   - **Continuous Deployment:** Automated deployment to staging/production\n\n2. **GitHub Actions Setup:**\n   - Create workflow files in \`.github/workflows/\`\n   - Define build, test, and deploy stages\n   - Configure environment-specific deployments\n\n3. **Pipeline Features:**\n   - **Automated Testing:** Run unit and integration tests\n   - **Security Scanning:** Check for vulnerabilities\n   - **Build Optimization:** Cache dependencies for faster builds\n   - **Deployment Strategy:** Use blue-green or canary deployments\n\n4. **Monitoring & Notifications:**\n   - Set up Slack/email notifications for pipeline status\n   - Monitor deployment success rates\n   - Track build times and optimize bottlenecks`,
+            suggestions: [
+              "Show me a sample GitHub Actions workflow",
+              "How to run tests in CI/CD?",
+              "What is blue-green deployment?"
+            ],
+            actionItems: [
+              "Create workflow files in .github/workflows/",
+              "Define build, test, and deploy stages",
+              "Set up notifications for pipeline status"
+            ]
+          };
         } else if (lowerMsg.includes("hello") || lowerMsg.includes("hi")) {
-          return "Hello! I'm your OmniInfra AI assistant. I can help you with deployments, troubleshooting, environment configuration, and infrastructure optimization. How can I assist you today?";
+          return {
+            response: `**Hello! Welcome to OmniInfra AI Assistant** 👋\n\nI'm here to help you with:\n\n1. **Deployment & Infrastructure:**\n   - Deploy your applications\n   - Configure servers and domains\n   - Manage deployment environments\n\n2. **CI/CD Pipelines:**\n   - Set up automated workflows\n   - Configure build and test pipelines\n   - Implement deployment strategies\n\n3. **Optimization & Performance:**\n   - Improve application performance\n   - Optimize build processes\n   - Implement caching strategies\n\n4. **Security & Best Practices:**\n   - Secure your infrastructure\n   - Manage secrets and credentials\n   - Follow DevOps best practices\n\nHow can I assist you today?`,
+            suggestions: [
+              "How can I improve my deployment process?",
+              "What security best practices should I implement?",
+              "How do I set up monitoring and alerts?"
+            ],
+            actionItems: []
+          };
         } else {
-          return `I understand you're asking about "${userMessage}". I can help you with deployment, environment configuration, CI/CD pipelines, performance optimization, and security best practices. What specific aspect would you like to explore?`;
+          return {
+            response: `I understand you're asking about **"${userMessage}"**\n\nI can help you with several DevOps and infrastructure topics:\n\n1. **Deployment & Infrastructure:**\n   - Application deployment\n   - Server configuration\n   - Domain and SSL setup\n\n2. **Development Workflow:**\n   - CI/CD pipeline setup\n   - Environment variable management\n   - GitHub integration\n\n3. **Optimization:**\n   - Performance tuning\n   - Security hardening\n   - Cost optimization\n\nCould you provide more details about what you'd like to explore?`,
+            suggestions: [
+              "How can I improve my deployment process?",
+              "What security best practices should I implement?",
+              "How do I set up monitoring and alerts?"
+            ],
+            actionItems: []
+          };
         }
       };
 
@@ -163,9 +251,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({
         id: `msg-${Date.now()}`,
-        message: aiResponse,
+        response: aiResponse.response,
         timestamp: new Date().toISOString(),
-        role: "assistant"
+        role: "assistant",
+        suggestions: aiResponse.suggestions,
+        actionItems: aiResponse.actionItems,
+        conversationId: `conv-${projectId}-${Date.now()}`
       });
     } catch (error) {
       console.error("Error in chat:", error);
