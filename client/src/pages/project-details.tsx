@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRoute } from 'wouter';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { DashboardCard, DashboardCardHeader, DashboardCardContent, DashboardCardTitle } from '@/components/ui/dashboard-card';
 import { Badge } from '@/components/ui/dashboard-badge';
@@ -57,6 +58,7 @@ import {
 import { Link } from 'wouter';
 
 export default function ProjectDetails() {
+  const { t } = useTranslation();
   const [match, params] = useRoute('/dashboard/projects/:id');
   const { success, error } = useToast();
   const [project, setProject] = useState<Project | null>(null);
@@ -209,7 +211,7 @@ export default function ProjectDetails() {
                 <Link href="/dashboard/projects">
                   <Button>
                     <ArrowLeft className="h-4 w-4 mr-2" />
-                    Back to Projects
+                    {t('projectDetails.backToProjects')}
                   </Button>
                 </Link>
               </div>
@@ -235,7 +237,7 @@ export default function ProjectDetails() {
                 <Link href="/dashboard/projects">
                   <Button variant="ghost" size="sm">
                     <ArrowLeft className="h-4 w-4 mr-2" />
-                    Back to Projects
+                    {t('projectDetails.backToProjects')}
                   </Button>
                 </Link>
               </div>
@@ -296,10 +298,10 @@ export default function ProjectDetails() {
               <div className="lg:col-span-2 space-y-6">
                 <Tabs defaultValue="overview" className="w-full">
                   <TabsList className="grid w-full grid-cols-4">
-                    <TabsTrigger value="overview">Overview</TabsTrigger>
-                    <TabsTrigger value="deployments">Deployments</TabsTrigger>
-                    <TabsTrigger value="environment">Environment</TabsTrigger>
-                    <TabsTrigger value="domains">Domains</TabsTrigger>
+                    <TabsTrigger value="overview">{t('projectDetails.tabs.overview')}</TabsTrigger>
+                    <TabsTrigger value="deployments">{t('projectDetails.tabs.deployments')}</TabsTrigger>
+                    <TabsTrigger value="environment">{t('projectDetails.tabs.envVars')}</TabsTrigger>
+                    <TabsTrigger value="domains">{t('projectDetails.tabs.domains')}</TabsTrigger>
                   </TabsList>
                   
                   <TabsContent value="overview" className="space-y-6">
@@ -308,7 +310,7 @@ export default function ProjectDetails() {
                       <DashboardCardHeader>
                         <DashboardCardTitle className="flex items-center gap-2">
                           <CheckCircle className="h-5 w-5 text-green-500" />
-                          Setup Progress
+                          {t('projectDetails.setupProgress.title')}
                         </DashboardCardTitle>
                       </DashboardCardHeader>
                       <DashboardCardContent>
@@ -402,7 +404,7 @@ export default function ProjectDetails() {
                         <DashboardCardHeader>
                           <DashboardCardTitle className="flex items-center gap-2 text-orange-600 dark:text-orange-400">
                             <AlertTriangle className="h-5 w-5" />
-                            Warnings
+                            {t('projectDetails.warnings.title')}
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
@@ -424,7 +426,7 @@ export default function ProjectDetails() {
                         <DashboardCardHeader>
                           <DashboardCardTitle className="flex items-center gap-2">
                             <Lightbulb className="h-5 w-5 text-yellow-500" />
-                            Recommendations
+                            {t('projectDetails.recommendations.title')}
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
@@ -470,7 +472,7 @@ export default function ProjectDetails() {
                         <DashboardCardHeader>
                           <DashboardCardTitle className="flex items-center gap-2">
                             <TrendingUp className="h-5 w-5 text-green-500" />
-                            Key Insights
+                            {t('projectDetails.insights.title')}
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
@@ -492,7 +494,7 @@ export default function ProjectDetails() {
                         <DashboardCardHeader>
                           <DashboardCardTitle className="flex items-center gap-2">
                             <Layers className="h-5 w-5 text-blue-500" />
-                            Tech Stack
+                            {t('projectDetails.techStack.title')}
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
@@ -503,7 +505,7 @@ export default function ProjectDetails() {
                               <div>
                                 <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
                                   <Code className="h-4 w-4 text-blue-500" />
-                                  Languages
+                                  {t('projectDetails.techStack.languages')}
                                 </h4>
                                 <div className="flex flex-wrap gap-2">
                                   {project.lastAnalysisResult.techStack.languages.map((lang: string, index: number) => (
@@ -521,7 +523,7 @@ export default function ProjectDetails() {
                               <div>
                                 <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
                                   <Package className="h-4 w-4 text-purple-500" />
-                                  Frameworks
+                                  {t('projectDetails.techStack.frameworks')}
                                 </h4>
                                 <div className="flex flex-wrap gap-2">
                                   {project.lastAnalysisResult.techStack.frameworks.map((framework: string, index: number) => (
@@ -539,7 +541,7 @@ export default function ProjectDetails() {
                               <div>
                                 <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
                                   <Database className="h-4 w-4 text-green-500" />
-                                  Databases
+                                  {t('projectDetails.techStack.databases')}
                                 </h4>
                                 <div className="space-y-3">
                                   {project.lastAnalysisResult.techStack.databases.map((db: any, index: number) => (
@@ -549,7 +551,7 @@ export default function ProjectDetails() {
                                           {db.type}
                                         </span>
                                         <Badge variant={db.detected ? "success" : "default"}>
-                                          {db.detected ? "Detected" : "Not Detected"}
+                                          {db.detected ? t('projectDetails.techStack.detected') : t('projectDetails.techStack.notDetected')}
                                         </Badge>
                                       </div>
                                       {db.ormFramework && (
@@ -574,7 +576,7 @@ export default function ProjectDetails() {
                               <div>
                                 <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
                                   <Zap className="h-4 w-4 text-orange-500" />
-                                  Caching
+                                  {t('projectDetails.techStack.caching')}
                                 </h4>
                                 <div className="flex flex-wrap gap-2">
                                   {project.lastAnalysisResult.techStack.caching.map((cache: string, index: number) => (
@@ -592,7 +594,7 @@ export default function ProjectDetails() {
                               <div>
                                 <h4 className="text-sm font-semibold mb-2 flex items-center gap-2">
                                   <Workflow className="h-4 w-4 text-indigo-500" />
-                                  Message Queues
+                                  {t('projectDetails.techStack.messageQueues')}
                                 </h4>
                                 <div className="flex flex-wrap gap-2">
                                   {project.lastAnalysisResult.techStack.messageQueues.map((queue: string, index: number) => (
@@ -614,7 +616,7 @@ export default function ProjectDetails() {
                         <DashboardCardHeader>
                           <DashboardCardTitle className="flex items-center gap-2">
                             <Cloud className="h-5 w-5 text-purple-500" />
-                            Infrastructure
+                            {t('projectDetails.infrastructure.title')}
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
@@ -859,7 +861,7 @@ export default function ProjectDetails() {
                         <DashboardCardHeader>
                           <DashboardCardTitle className="flex items-center gap-2">
                             <FileCode className="h-5 w-5 text-indigo-500" />
-                            Code Quality
+                            {t('projectDetails.codeQuality.title')}
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
@@ -869,7 +871,7 @@ export default function ProjectDetails() {
                               <div>
                                 <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
                                   <CheckCircle className="h-4 w-4 text-blue-500" />
-                                  Linting
+                                  {t('projectDetails.codeQuality.linting')}
                                 </h4>
                                 <div className="grid grid-cols-2 gap-3 mb-2">
                                   <div className="border rounded-lg p-3">
@@ -912,7 +914,7 @@ export default function ProjectDetails() {
                               <div>
                                 <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
                                   <Activity className="h-4 w-4 text-green-500" />
-                                  Testing
+                                  {t('projectDetails.codeQuality.testing')}
                                 </h4>
                                 <div className="grid grid-cols-3 gap-3 mb-2">
                                   <div className="border rounded-lg p-3">
@@ -975,7 +977,7 @@ export default function ProjectDetails() {
                               <div>
                                 <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
                                   <Code className="h-4 w-4 text-purple-500" />
-                                  Type System
+                                  {t('projectDetails.codeQuality.typeSystem')}
                                 </h4>
                                 <div className="grid grid-cols-3 gap-3">
                                   <div className="border rounded-lg p-3">
@@ -1011,7 +1013,7 @@ export default function ProjectDetails() {
                               <div>
                                 <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
                                   <Settings className="h-4 w-4 text-orange-500" />
-                                  Code Style
+                                  {t('projectDetails.codeQuality.codeStyle')}
                                 </h4>
                                 <div className="grid grid-cols-3 gap-3">
                                   <div className="border rounded-lg p-3">
@@ -1055,7 +1057,7 @@ export default function ProjectDetails() {
                         <DashboardCardHeader>
                           <DashboardCardTitle className="flex items-center gap-2">
                             <Zap className="h-5 w-5 text-yellow-500" />
-                            Performance
+                            {t('projectDetails.performance.title')}
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
@@ -1167,7 +1169,7 @@ export default function ProjectDetails() {
                         <DashboardCardHeader>
                           <DashboardCardTitle className="flex items-center gap-2">
                             <Package className="h-5 w-5 text-blue-500" />
-                            Project Structure
+                            {t('projectDetails.projectStructure.title')}
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
@@ -1333,7 +1335,7 @@ export default function ProjectDetails() {
                     <DashboardCardHeader>
                       <DashboardCardTitle className="flex items-center gap-2">
                         <Activity className="h-5 w-5 text-blue-500" />
-                        Project Scores
+                        {t('projectDetails.scores.title')}
                       </DashboardCardTitle>
                     </DashboardCardHeader>
                     <DashboardCardContent>
@@ -1385,7 +1387,7 @@ export default function ProjectDetails() {
                 {/* Quick Actions */}
                 <DashboardCard>
                   <DashboardCardHeader>
-                    <DashboardCardTitle>Quick Actions</DashboardCardTitle>
+                    <DashboardCardTitle>{t('projectDetails.quickActions.title')}</DashboardCardTitle>
                   </DashboardCardHeader>
                   <DashboardCardContent>
                     <div className="space-y-3">
