@@ -126,6 +126,68 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // POST /api/projects/:projectId/chat - Send message to chatbot
+  app.post("/api/projects/:projectId/chat", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const { message } = req.body;
+
+      if (!message) {
+        return res.status(400).json({ error: "Message is required" });
+      }
+
+      // Simulate AI response based on message content
+      const simulateAIResponse = (userMessage: string): string => {
+        const lowerMsg = userMessage.toLowerCase();
+        
+        if (lowerMsg.includes("deploy") || lowerMsg.includes("deployment")) {
+          return "I can help you deploy your project! First, make sure your CI/CD pipeline is configured. You can check the setup progress in your project dashboard. Would you like me to guide you through the deployment process?";
+        } else if (lowerMsg.includes("error") || lowerMsg.includes("issue") || lowerMsg.includes("problem")) {
+          return "I'll help you troubleshoot the issue. Can you provide more details about the error you're experiencing? You can also check the 'Warnings' section in your project analysis for potential issues.";
+        } else if (lowerMsg.includes("environment") || lowerMsg.includes("env")) {
+          return "To configure environment variables, go to the 'Environment Variables' tab in your project. You can add, edit, or remove variables for each application in your project. Remember to keep sensitive data secure!";
+        } else if (lowerMsg.includes("performance") || lowerMsg.includes("optimize")) {
+          return "Based on your project analysis, I see some performance optimization opportunities. Check the 'Performance' section for recommendations on build optimization, caching strategies, and CDN usage.";
+        } else if (lowerMsg.includes("security")) {
+          return "Security is important! Your project analysis shows some security considerations. Make sure to use HTTPS, implement proper authentication, and keep your dependencies up to date. Check the 'Infrastructure' section for security details.";
+        } else if (lowerMsg.includes("ci/cd") || lowerMsg.includes("pipeline")) {
+          return "Your CI/CD pipeline helps automate deployments. I can set up GitHub Actions for you with build, test, and deploy workflows. Would you like me to create a PR with the pipeline configuration?";
+        } else if (lowerMsg.includes("hello") || lowerMsg.includes("hi")) {
+          return "Hello! I'm your OmniInfra AI assistant. I can help you with deployments, troubleshooting, environment configuration, and infrastructure optimization. How can I assist you today?";
+        } else {
+          return `I understand you're asking about "${userMessage}". I can help you with deployment, environment configuration, CI/CD pipelines, performance optimization, and security best practices. What specific aspect would you like to explore?`;
+        }
+      };
+
+      const aiResponse = simulateAIResponse(message);
+
+      res.json({
+        id: `msg-${Date.now()}`,
+        message: aiResponse,
+        timestamp: new Date().toISOString(),
+        role: "assistant"
+      });
+    } catch (error) {
+      console.error("Error in chat:", error);
+      res.status(500).json({ error: "Failed to process chat message" });
+    }
+  });
+
+  // POST /api/projects/:projectId/chat/cleanup - Clear chat history
+  app.post("/api/projects/:projectId/chat/cleanup", async (req, res) => {
+    try {
+      const { projectId } = req.params;
+
+      res.json({
+        success: true,
+        message: `Chat history cleared for project ${projectId}`
+      });
+    } catch (error) {
+      console.error("Error clearing chat:", error);
+      res.status(500).json({ error: "Failed to clear chat history" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
