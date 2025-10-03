@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
 import { 
   MessageCircle, 
   X, 
@@ -12,7 +13,8 @@ import {
   Trash2,
   Bot,
   User,
-  Loader2
+  Loader2,
+  Sparkles
 } from "lucide-react";
 
 type Message = {
@@ -20,11 +22,112 @@ type Message = {
   role: "user" | "assistant";
   message: string;
   timestamp: string;
+  suggestions?: string[];
+  actionItems?: string[];
 };
 
 type ChatBotProps = {
   projectId: string;
 };
+
+// Markdown renderer component
+function MarkdownText({ text }: { text: string }) {
+  const renderLine = (line: string, index: number) => {
+    // Handle bold text **text**
+    const parts = line.split(/(\*\*.*?\*\*)/g);
+    
+    return (
+      <span key={index}>
+        {parts.map((part, i) => {
+          if (part.startsWith('**') && part.endsWith('**')) {
+            return <strong key={i} className="font-semibold">{part.slice(2, -2)}</strong>;
+          }
+          return <span key={i}>{part}</span>;
+        })}
+      </span>
+    );
+  };
+
+  const lines = text.split('\n');
+  const elements: JSX.Element[] = [];
+  let listItems: string[] = [];
+  let subListItems: string[] = [];
+  let inNumberedList = false;
+  let inBulletList = false;
+
+  const flushLists = () => {
+    if (subListItems.length > 0) {
+      elements.push(
+        <ul key={`sublist-${elements.length}`} className="ml-6 mt-1 space-y-1">
+          {subListItems.map((item, i) => (
+            <li key={i} className="text-sm">{renderLine(item.trim(), i)}</li>
+          ))}
+        </ul>
+      );
+      subListItems = [];
+    }
+    if (listItems.length > 0) {
+      if (inNumberedList) {
+        elements.push(
+          <ol key={`list-${elements.length}`} className="ml-6 mt-2 mb-2 space-y-2 list-decimal">
+            {listItems.map((item, i) => (
+              <li key={i} className="text-sm pl-1">{renderLine(item.trim(), i)}</li>
+            ))}
+          </ol>
+        );
+      } else if (inBulletList) {
+        elements.push(
+          <ul key={`list-${elements.length}`} className="ml-6 mt-2 mb-2 space-y-1 list-disc">
+            {listItems.map((item, i) => (
+              <li key={i} className="text-sm pl-1">{renderLine(item.trim(), i)}</li>
+            ))}
+          </ul>
+        );
+      }
+      listItems = [];
+      inNumberedList = false;
+      inBulletList = false;
+    }
+  };
+
+  lines.forEach((line, index) => {
+    const trimmed = line.trim();
+    
+    // Numbered list item (e.g., "1. **Direct Answer:**")
+    if (/^\d+\.\s/.test(trimmed)) {
+      if (inBulletList) flushLists();
+      inNumberedList = true;
+      listItems.push(trimmed.replace(/^\d+\.\s/, ''));
+    }
+    // Nested bullet point (e.g., "- **Switch to HTTPS:**")
+    else if (trimmed.startsWith('- ')) {
+      if (inNumberedList && listItems.length > 0) {
+        subListItems.push(trimmed.slice(2));
+      } else {
+        if (inNumberedList) flushLists();
+        inBulletList = true;
+        listItems.push(trimmed.slice(2));
+      }
+    }
+    // Regular text
+    else if (trimmed) {
+      flushLists();
+      elements.push(
+        <p key={`text-${index}`} className="text-sm leading-relaxed mb-2">
+          {renderLine(trimmed, index)}
+        </p>
+      );
+    }
+    // Empty line
+    else {
+      flushLists();
+    }
+  });
+
+  flushLists();
+
+  return <div className="space-y-1">{elements}</div>;
+}
 
 export default function ChatBot({ projectId }: ChatBotProps) {
   const [isOpen, setIsOpen] = useState(false);
