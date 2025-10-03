@@ -348,3 +348,123 @@ export async function getActivity(): Promise<ActivityItem[]> {
   await delay(350);
   return activities.slice(0, 5);
 }
+
+export type GitHubRepo = {
+  id: number;
+  name: string;
+  full_name: string;
+  description: string | null;
+  private: boolean;
+  html_url: string;
+  language: string | null;
+  stargazers_count: number;
+  updated_at: string;
+};
+
+export async function getGitHubRepos(): Promise<GitHubRepo[]> {
+  await delay(600);
+  // Mock GitHub repositories
+  return [
+    {
+      id: 101,
+      name: "omniinfra-backend",
+      full_name: "company/omniinfra-backend",
+      description: "Backend API service for OmniInfra platform",
+      private: false,
+      html_url: "https://github.com/company/omniinfra-backend",
+      language: "TypeScript",
+      stargazers_count: 42,
+      updated_at: "2024-12-15T10:30:00Z"
+    },
+    {
+      id: 102,
+      name: "analytics",
+      full_name: "company/analytics",
+      description: "Real-time analytics and data processing pipeline",
+      private: true,
+      html_url: "https://github.com/company/analytics",
+      language: "Python",
+      stargazers_count: 15,
+      updated_at: "2024-12-14T14:20:00Z"
+    },
+    {
+      id: 103,
+      name: "ecommerce",
+      full_name: "company/ecommerce",
+      description: "Full-stack e-commerce platform with React and Node.js",
+      private: false,
+      html_url: "https://github.com/company/ecommerce",
+      language: "JavaScript",
+      stargazers_count: 87,
+      updated_at: "2024-12-13T16:45:00Z"
+    },
+    {
+      id: 104,
+      name: "marketing-site",
+      full_name: "company/marketing-site",
+      description: "Marketing website with CMS integration",
+      private: false,
+      html_url: "https://github.com/company/marketing-site",
+      language: "TypeScript",
+      stargazers_count: 23,
+      updated_at: "2024-12-12T11:30:00Z"
+    },
+    {
+      id: 105,
+      name: "mobile-gateway",
+      full_name: "company/mobile-gateway",
+      description: "API gateway for mobile applications",
+      private: true,
+      html_url: "https://github.com/company/mobile-gateway",
+      language: "Go",
+      stargazers_count: 34,
+      updated_at: "2024-12-11T09:15:00Z"
+    },
+    {
+      id: 106,
+      name: "data-pipeline",
+      full_name: "company/data-pipeline",
+      description: "ETL data processing pipeline",
+      private: true,
+      html_url: "https://github.com/company/data-pipeline",
+      language: "Python",
+      stargazers_count: 19,
+      updated_at: "2024-12-10T13:20:00Z"
+    },
+    {
+      id: 107,
+      name: "auth-service",
+      full_name: "company/auth-service",
+      description: "Centralized authentication and authorization service",
+      private: false,
+      html_url: "https://github.com/company/auth-service",
+      language: "TypeScript",
+      stargazers_count: 56,
+      updated_at: "2024-12-09T15:10:00Z"
+    },
+    {
+      id: 108,
+      name: "notification-service",
+      full_name: "company/notification-service",
+      description: "Multi-channel notification system",
+      private: true,
+      html_url: "https://github.com/company/notification-service",
+      language: "JavaScript",
+      stargazers_count: 12,
+      updated_at: "2024-12-08T12:00:00Z"
+    }
+  ];
+}
+
+export async function setGitHubRepo(projectId: string, githubRepo: { full_name: string; url?: string }): Promise<void> {
+  await delay(400);
+  const project = projects.find(p => p.id === projectId);
+  if (project) {
+    project.githubRepo = githubRepo;
+    activities.unshift({
+      id: `act-${Date.now()}`,
+      text: `Connected GitHub repository ${githubRepo.full_name} to ${project.name}`,
+      at: new Date().toISOString()
+    });
+  }
+}
