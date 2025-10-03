@@ -48,7 +48,11 @@ import {
   Cloud,
   FileCode,
   Zap,
-  TrendingUp
+  TrendingUp,
+  Container,
+  Workflow,
+  BarChart,
+  Lock
 } from 'lucide-react';
 import { Link } from 'wouter';
 
@@ -507,7 +511,237 @@ export default function ProjectDetails() {
                           </DashboardCardTitle>
                         </DashboardCardHeader>
                         <DashboardCardContent>
-                          <AnalysisRenderer data={project.lastAnalysisResult.infrastructure} />
+                          <div className="space-y-6">
+                            {/* Containerization */}
+                            {project.lastAnalysisResult.infrastructure.containerization && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                                  <Container className="h-4 w-4 text-blue-500" />
+                                  Containerization
+                                </h4>
+                                <div className="grid grid-cols-2 gap-3">
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">Dockerfile</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.infrastructure.containerization.hasDockerfile ? "success" : "default"}
+                                      data-testid="dockerfile-status"
+                                    >
+                                      {project.lastAnalysisResult.infrastructure.containerization.hasDockerfile ? "Present" : "Not Found"}
+                                    </Badge>
+                                  </div>
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">Docker Compose</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.infrastructure.containerization.hasDockerCompose ? "success" : "default"}
+                                      data-testid="docker-compose-status"
+                                    >
+                                      {project.lastAnalysisResult.infrastructure.containerization.hasDockerCompose ? "Present" : "Not Found"}
+                                    </Badge>
+                                  </div>
+                                </div>
+                                {project.lastAnalysisResult.infrastructure.containerization.dockerComposeServices && 
+                                 project.lastAnalysisResult.infrastructure.containerization.dockerComposeServices.length > 0 && (
+                                  <div className="mt-2">
+                                    <p className="text-xs text-muted-foreground mb-1">Services:</p>
+                                    <div className="flex flex-wrap gap-1">
+                                      {project.lastAnalysisResult.infrastructure.containerization.dockerComposeServices.map((service: string, index: number) => (
+                                        <Badge key={index} variant="info" className="text-xs">
+                                          {service}
+                                        </Badge>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {/* CI/CD */}
+                            {project.lastAnalysisResult.infrastructure.cicd && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                                  <Workflow className="h-4 w-4 text-green-500" />
+                                  CI/CD
+                                </h4>
+                                <div className="grid grid-cols-2 gap-3 mb-2">
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">GitHub Actions</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.infrastructure.cicd.hasGithubActions ? "success" : "default"}
+                                      data-testid="github-actions-status"
+                                    >
+                                      {project.lastAnalysisResult.infrastructure.cicd.hasGithubActions ? "Enabled" : "Not Set"}
+                                    </Badge>
+                                  </div>
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">Other CI</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.infrastructure.cicd.hasOtherCI ? "success" : "default"}
+                                      data-testid="other-ci-status"
+                                    >
+                                      {project.lastAnalysisResult.infrastructure.cicd.hasOtherCI ? "Configured" : "Not Set"}
+                                    </Badge>
+                                  </div>
+                                </div>
+                                {project.lastAnalysisResult.infrastructure.cicd.workflows && 
+                                 project.lastAnalysisResult.infrastructure.cicd.workflows.length > 0 && (
+                                  <div>
+                                    <p className="text-xs text-muted-foreground mb-1">Workflows:</p>
+                                    <div className="flex flex-wrap gap-1">
+                                      {project.lastAnalysisResult.infrastructure.cicd.workflows.map((workflow: string, index: number) => (
+                                        <Badge key={index} variant="info" className="text-xs" data-testid={`workflow-${index}`}>
+                                          {workflow}
+                                        </Badge>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {/* Deployment */}
+                            {project.lastAnalysisResult.infrastructure.deployment && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                                  <Server className="h-4 w-4 text-purple-500" />
+                                  Deployment
+                                </h4>
+                                <div className="grid grid-cols-3 gap-3 mb-2">
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">Kubernetes</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.infrastructure.deployment.hasKubernetes ? "success" : "default"}
+                                      data-testid="kubernetes-status"
+                                    >
+                                      {project.lastAnalysisResult.infrastructure.deployment.hasKubernetes ? "Yes" : "No"}
+                                    </Badge>
+                                  </div>
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">Helm</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.infrastructure.deployment.hasHelm ? "success" : "default"}
+                                      data-testid="helm-status"
+                                    >
+                                      {project.lastAnalysisResult.infrastructure.deployment.hasHelm ? "Yes" : "No"}
+                                    </Badge>
+                                  </div>
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">Serverless</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.infrastructure.deployment.hasServerless ? "success" : "default"}
+                                      data-testid="serverless-status"
+                                    >
+                                      {project.lastAnalysisResult.infrastructure.deployment.hasServerless ? "Yes" : "No"}
+                                    </Badge>
+                                  </div>
+                                </div>
+                                {project.lastAnalysisResult.infrastructure.deployment.platform && (
+                                  <div className="border rounded-lg p-3 bg-purple-50 dark:bg-purple-950">
+                                    <p className="text-xs text-muted-foreground mb-1">Platform</p>
+                                    <p className="font-semibold text-purple-700 dark:text-purple-300" data-testid="deployment-platform">
+                                      {project.lastAnalysisResult.infrastructure.deployment.platform}
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {/* Monitoring */}
+                            {project.lastAnalysisResult.infrastructure.monitoring && (
+                              <div>
+                                <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                                  <BarChart className="h-4 w-4 text-orange-500" />
+                                  Monitoring
+                                </h4>
+                                <div className="grid grid-cols-2 gap-3 mb-2">
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">Logging</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.infrastructure.monitoring.hasLogging ? "success" : "warning"}
+                                      data-testid="logging-status"
+                                    >
+                                      {project.lastAnalysisResult.infrastructure.monitoring.hasLogging ? "Enabled" : "Not Set"}
+                                    </Badge>
+                                  </div>
+                                  <div className="border rounded-lg p-3">
+                                    <p className="text-xs text-muted-foreground mb-1">Metrics</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.infrastructure.monitoring.hasMetrics ? "success" : "warning"}
+                                      data-testid="metrics-status"
+                                    >
+                                      {project.lastAnalysisResult.infrastructure.monitoring.hasMetrics ? "Enabled" : "Not Set"}
+                                    </Badge>
+                                  </div>
+                                </div>
+                                {project.lastAnalysisResult.infrastructure.monitoring.tools && 
+                                 project.lastAnalysisResult.infrastructure.monitoring.tools.length > 0 && (
+                                  <div>
+                                    <p className="text-xs text-muted-foreground mb-1">Tools:</p>
+                                    <div className="flex flex-wrap gap-1">
+                                      {project.lastAnalysisResult.infrastructure.monitoring.tools.map((tool: string, index: number) => (
+                                        <Badge key={index} variant="info" className="text-xs" data-testid={`monitoring-tool-${index}`}>
+                                          {tool}
+                                        </Badge>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {/* Security */}
+                            {project.lastAnalysisResult.infrastructure.security && (
+                              <div className="border-l-4 border-red-500 bg-red-50 dark:bg-red-950 p-4 rounded">
+                                <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                                  <Lock className="h-4 w-4 text-red-600 dark:text-red-400" />
+                                  Security
+                                </h4>
+                                <div className="grid grid-cols-3 gap-3 mb-3">
+                                  <div>
+                                    <p className="text-xs text-muted-foreground mb-1">Env Files</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.infrastructure.security.hasEnvFiles ? "success" : "warning"}
+                                      data-testid="env-files-status"
+                                    >
+                                      {project.lastAnalysisResult.infrastructure.security.hasEnvFiles ? "Yes" : "No"}
+                                    </Badge>
+                                  </div>
+                                  <div>
+                                    <p className="text-xs text-muted-foreground mb-1">Secrets</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.infrastructure.security.hasSecrets ? "success" : "warning"}
+                                      data-testid="secrets-status"
+                                    >
+                                      {project.lastAnalysisResult.infrastructure.security.hasSecrets ? "Yes" : "No"}
+                                    </Badge>
+                                  </div>
+                                  <div>
+                                    <p className="text-xs text-muted-foreground mb-1">Scanning</p>
+                                    <Badge 
+                                      variant={project.lastAnalysisResult.infrastructure.security.hasSecurityScanning ? "success" : "warning"}
+                                      data-testid="security-scanning-status"
+                                    >
+                                      {project.lastAnalysisResult.infrastructure.security.hasSecurityScanning ? "Yes" : "No"}
+                                    </Badge>
+                                  </div>
+                                </div>
+                                {project.lastAnalysisResult.infrastructure.security.vulnerabilities && 
+                                 project.lastAnalysisResult.infrastructure.security.vulnerabilities.length > 0 && (
+                                  <div>
+                                    <p className="text-xs font-medium text-red-700 dark:text-red-300 mb-1">
+                                      Vulnerabilities:
+                                    </p>
+                                    <ul className="space-y-1 ml-4">
+                                      {project.lastAnalysisResult.infrastructure.security.vulnerabilities.map((vuln: string, index: number) => (
+                                        <li key={index} className="text-sm list-disc text-red-700 dark:text-red-300" data-testid={`vulnerability-${index}`}>
+                                          {vuln}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
                         </DashboardCardContent>
                       </DashboardCard>
                     )}
