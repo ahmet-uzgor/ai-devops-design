@@ -8,6 +8,7 @@ import { Skeleton, SkeletonText, SkeletonCard } from '@/components/ui/skeleton';
 import { useToast } from '@/components/ui/ToastProvider';
 import DashboardSidebar from '@/components/layout/dashboard-sidebar';
 import { AnalysisRenderer } from '@/components/ui/analysis-renderer';
+import ChatBot from '@/components/ChatBot';
 import { RequireAuth } from '@/lib/auth';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -1444,6 +1445,9 @@ export default function ProjectDetails() {
           </div>
         </div>
       </div>
+
+      {/* AI Chat Assistant */}
+      {projectId && <ChatBot projectId={projectId} />}
     </RequireAuth>
   );
 }
