@@ -32,101 +32,98 @@ type ChatBotProps = {
 
 // Markdown renderer component
 function MarkdownText({ text }: { text: string }) {
-  const renderLine = (line: string, index: number) => {
-    // Handle bold text **text**
-    const parts = line.split(/(\*\*.*?\*\*)/g);
-    
-    return (
-      <span key={index}>
-        {parts.map((part, i) => {
-          if (part.startsWith('**') && part.endsWith('**')) {
-            return <strong key={i} className="font-semibold">{part.slice(2, -2)}</strong>;
-          }
-          return <span key={i}>{part}</span>;
-        })}
-      </span>
-    );
+  // Function to render inline markdown (bold text)
+  const renderInline = (content: string) => {
+    const parts = content.split(/(\*\*[^*]+\*\*)/g);
+    return parts.map((part, i) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={i} className="font-bold">{part.slice(2, -2)}</strong>;
+      }
+      return <span key={i}>{part}</span>;
+    });
   };
 
   const lines = text.split('\n');
   const elements: JSX.Element[] = [];
-  let listItems: string[] = [];
-  let subListItems: string[] = [];
-  let inNumberedList = false;
-  let inBulletList = false;
+  let currentList: { type: 'ol' | 'ul'; items: Array<{ content: string; subItems: string[] }> } | null = null;
 
-  const flushLists = () => {
-    if (subListItems.length > 0) {
+  const flushList = () => {
+    if (currentList) {
+      const ListComponent = currentList.type === 'ol' ? 'ol' : 'ul';
+      const listClassName = currentList.type === 'ol' 
+        ? "list-decimal list-outside ml-5 mt-2 mb-3 space-y-2" 
+        : "list-disc list-outside ml-5 mt-2 mb-3 space-y-1.5";
+      
       elements.push(
-        <ul key={`sublist-${elements.length}`} className="ml-6 mt-1 space-y-1">
-          {subListItems.map((item, i) => (
-            <li key={i} className="text-sm">{renderLine(item.trim(), i)}</li>
+        <ListComponent key={`list-${elements.length}`} className={listClassName}>
+          {currentList.items.map((item, i) => (
+            <li key={i} className="text-sm leading-relaxed pl-1">
+              <div>{renderInline(item.content)}</div>
+              {item.subItems.length > 0 && (
+                <ul className="list-disc list-outside ml-5 mt-1.5 space-y-1">
+                  {item.subItems.map((subItem, j) => (
+                    <li key={j} className="text-sm leading-relaxed pl-1">
+                      {renderInline(subItem)}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
           ))}
-        </ul>
+        </ListComponent>
       );
-      subListItems = [];
-    }
-    if (listItems.length > 0) {
-      if (inNumberedList) {
-        elements.push(
-          <ol key={`list-${elements.length}`} className="ml-6 mt-2 mb-2 space-y-2 list-decimal">
-            {listItems.map((item, i) => (
-              <li key={i} className="text-sm pl-1">{renderLine(item.trim(), i)}</li>
-            ))}
-          </ol>
-        );
-      } else if (inBulletList) {
-        elements.push(
-          <ul key={`list-${elements.length}`} className="ml-6 mt-2 mb-2 space-y-1 list-disc">
-            {listItems.map((item, i) => (
-              <li key={i} className="text-sm pl-1">{renderLine(item.trim(), i)}</li>
-            ))}
-          </ul>
-        );
-      }
-      listItems = [];
-      inNumberedList = false;
-      inBulletList = false;
+      currentList = null;
     }
   };
 
   lines.forEach((line, index) => {
     const trimmed = line.trim();
     
-    // Numbered list item (e.g., "1. **Direct Answer:**")
-    if (/^\d+\.\s/.test(trimmed)) {
-      if (inBulletList) flushLists();
-      inNumberedList = true;
-      listItems.push(trimmed.replace(/^\d+\.\s/, ''));
+    if (!trimmed) {
+      flushList();
+      return;
     }
-    // Nested bullet point (e.g., "- **Switch to HTTPS:**")
-    else if (trimmed.startsWith('- ')) {
-      if (inNumberedList && listItems.length > 0) {
-        subListItems.push(trimmed.slice(2));
-      } else {
-        if (inNumberedList) flushLists();
-        inBulletList = true;
-        listItems.push(trimmed.slice(2));
+    
+    // Check for numbered list (1. , 2. , etc.)
+    const numberedMatch = trimmed.match(/^(\d+)\.\s+(.+)$/);
+    if (numberedMatch) {
+      if (!currentList || currentList.type !== 'ol') {
+        flushList();
+        currentList = { type: 'ol', items: [] };
       }
+      currentList.items.push({ content: numberedMatch[2], subItems: [] });
+      return;
     }
-    // Regular text
-    else if (trimmed) {
-      flushLists();
-      elements.push(
-        <p key={`text-${index}`} className="text-sm leading-relaxed mb-2">
-          {renderLine(trimmed, index)}
-        </p>
-      );
+    
+    // Check for bullet list (- )
+    const bulletMatch = trimmed.match(/^-\s+(.+)$/);
+    if (bulletMatch) {
+      // If we have a current numbered list, this is a sub-item
+      if (currentList && currentList.type === 'ol' && currentList.items.length > 0) {
+        currentList.items[currentList.items.length - 1].subItems.push(bulletMatch[1]);
+      } else {
+        // Otherwise, start a new bullet list
+        if (!currentList || currentList.type !== 'ul') {
+          flushList();
+          currentList = { type: 'ul', items: [] };
+        }
+        currentList.items.push({ content: bulletMatch[1], subItems: [] });
+      }
+      return;
     }
-    // Empty line
-    else {
-      flushLists();
-    }
+    
+    // Regular paragraph
+    flushList();
+    elements.push(
+      <p key={`p-${index}`} className="text-sm leading-relaxed mb-2">
+        {renderInline(trimmed)}
+      </p>
+    );
   });
 
-  flushLists();
+  flushList();
 
-  return <div className="space-y-1">{elements}</div>;
+  return <div className="space-y-0.5">{elements}</div>;
 }
 
 export default function ChatBot({ projectId }: ChatBotProps) {
