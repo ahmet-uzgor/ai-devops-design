@@ -10,6 +10,8 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- **Analysis Result Type System** (October 3, 2025): Created comprehensive TypeScript interfaces for project analysis results in shared schema, including AppInfo, TechStack, Infrastructure, CodeQuality, Performance, Recommendations, Scores, and AnalysisResult. Updated projects table to use strongly-typed AnalysisResult interface instead of generic Record type.
+- **Enhanced Analysis Display** (October 3, 2025): Reorganized project details page with dedicated cards for each analysis section (Warnings, Recommendations, Insights, Tech Stack, Infrastructure, Code Quality, Performance, Project Structure). Added custom scores card in sidebar with color-coded progress bars (green/yellow/orange/red based on score values).
 - **Project Details Page Added** (August 13, 2025): Created comprehensive project details page with tabbed interface showing overview, deployments, environment variables, and domains. Includes setup progress tracking, project analysis results, and quick actions sidebar.
 - **Enhanced Navigation** (August 13, 2025): Updated projects page to link to individual project detail pages for better user experience.
 - **Project Schema Enhancement** (August 13, 2025): Extended shared schema to include detailed project model with proper database fields for project management.
