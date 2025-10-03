@@ -24,11 +24,12 @@ import {
   Trash2,
   ExternalLink
 } from 'lucide-react';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
 
 export default function Projects() {
   const { t } = useTranslation();
   const { success } = useToast();
+  const [, setLocation] = useLocation();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -70,7 +71,7 @@ export default function Projects() {
   };
 
   const handleCreateProject = () => {
-    success('Project creation will be available soon!');
+    setLocation('/dashboard/projects/new');
   };
 
   return (
